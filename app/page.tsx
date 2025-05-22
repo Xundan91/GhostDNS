@@ -11,7 +11,7 @@ export default function AddSubdomainForm() {
   const handleSubmit = async () => {
     setStatus("loading");
     try {
-      const response = await fetch("/api/add-cname", {
+      const response = await fetch("http://localhost:3000/api/add-cname", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,6 +53,8 @@ export default function AddSubdomainForm() {
       </button>
       {status === "success" && <p>CNAME record added successfully!</p>}
       {status === "error" && <p>Failed to add CNAME record.</p>}
+      <button >Login Vercel</button>
+      <button >set Domain</button>
     </div>
   );
 }
