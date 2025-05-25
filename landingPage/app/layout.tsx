@@ -24,7 +24,7 @@ const bungee = Bungee({
 });
 
 export const metadata: Metadata = {
-  title: "GhostDns - Your Subdomain Marketplace",
+  title: "GhostDNS - Your Subdomain Marketplace",
   description: "Find and register your perfect subdomain from domain owners or list your own domain for subdomain registration.",
 };
 
