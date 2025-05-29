@@ -13,8 +13,8 @@ const VercelProvider = {
   },
   token: "https://api.vercel.com/v2/oauth/access_token",
   userinfo: "https://api.vercel.com/v2/user",
-  clientId: process.env.VERCEL_CLIENT_ID!,
-  clientSecret: process.env.VERCEL_CLIENT_SECRET!,
+  clientId: process.env.V_CLIENT_ID!,
+  clientSecret: process.env.V_CLIENT_SECRET!,
   profile(profile) {
     return {
       id: profile.user.id,
