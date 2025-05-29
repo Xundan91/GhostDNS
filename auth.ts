@@ -18,7 +18,7 @@ export const authConfig: NextAuthConfig = {
       authorization: {
         url: "https://vercel.com/oauth/authorize",
         params: {
-          client_id: process.env.VERCEL_CLIENT_ID,
+          client_id: process.env.V_CLIENT_ID,
           response_type: "code",
           redirect_uri: "https://ghostdns.xundan.in/api/auth/callback/vercel",
           scope: "read:deployments read:projects",
@@ -27,8 +27,8 @@ export const authConfig: NextAuthConfig = {
       token: {
         url: "https://api.vercel.com/v2/oauth/access_token",
         params: {
-          client_id: process.env.VERCEL_CLIENT_ID,
-          client_secret: process.env.VERCEL_CLIENT_SECRET,
+          client_id: process.env.V_CLIENT_ID,
+          client_secret: process.env.V_CLIENT_SECRET,
           grant_type: "authorization_code",
         },
       },
@@ -43,8 +43,8 @@ export const authConfig: NextAuthConfig = {
           image: profile.user.avatar,
         };
       },
-      clientId: process.env.VERCEL_CLIENT_ID,
-      clientSecret: process.env.VERCEL_CLIENT_SECRET,
+      clientId: process.env.V_CLIENT_ID,
+      clientSecret: process.env.V_CLIENT_SECRET,
     },
   ],
   callbacks: {
