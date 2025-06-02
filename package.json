@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@vercel/sdk": "^1.7.5",
+    "bcrypt": "^6.0.0",
     "drizzle-kit": "^0.31.1",
     "drizzle-orm": "^0.43.1",
     "next": "15.3.2",
