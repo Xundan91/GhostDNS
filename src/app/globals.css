@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-primary-light text-accent-light transition-colors duration-300;
+  }
+
+  .dark body {
+    @apply bg-primary-dark text-accent-dark;
+  }
+}
+
+::selection {
+  @apply bg-accent-light text-primary-light dark:bg-accent-dark dark:text-primary-dark;
+}
