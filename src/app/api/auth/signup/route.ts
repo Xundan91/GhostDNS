@@ -3,7 +3,7 @@ import {db} from '@/database/index'
 import {eq} from "drizzle-orm"
 import {users} from "@/database/schema/users"
 
-import bcrypt from "bcrypt"
+import bcrypt from "bcryptjs"
 
 
 export async function POST(req:Request){
