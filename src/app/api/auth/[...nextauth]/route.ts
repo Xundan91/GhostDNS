@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
-import { db } from "@/database";
+import { db } from "@/database"; // 🔧 Adjust path as needed
 import { users } from "@/database/schema/users";
 import { eq } from "drizzle-orm";
 
