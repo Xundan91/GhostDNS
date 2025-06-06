@@ -75,20 +75,6 @@ Domain Hub is a modern subdomain marketplace designed specifically for developer
 - **🔒 Security**: bcrypt for password hashing
 - **🌐 SEO Optimized**: Meta tags and structured data
 
-## 🖼️ Screenshots
-
-<div align="center">
-
-### 🏠 Homepage
-![Homepage](https://via.placeholder.com/800x400/4F46E5/FFFFFF?text=Domain+Hub+Homepage)
-
-### 🎯 Domain Card
-![Domain Card](https://via.placeholder.com/400x300/06B6D4/FFFFFF?text=Domain+Card+Preview)
-
-### 🌙 Dark Mode
-![Dark Mode](https://via.placeholder.com/800x400/1F2937/FFFFFF?text=Dark+Mode+Interface)
-
-</div>
 
 ## 🚀 Quick Start
 
