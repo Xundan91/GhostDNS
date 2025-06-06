@@ -1,5 +1,6 @@
 
-
+.next
+next
 node_modules
 dist
 dist-ssr

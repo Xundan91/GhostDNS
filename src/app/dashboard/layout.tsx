@@ -1,10 +1,11 @@
 'use client';
 
-import { Menu, Search, Bell, User, Package, Settings, CreditCard, LogOut, Globe } from 'lucide-react';
+import { Menu, Search, Bell, User, Package, Settings, CreditCard, LogOut, Globe, Link as LucideLink, UserCircle } from 'lucide-react';
 import { Menu as HeadlessMenu } from '@headlessui/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Link from 'next/link';
+import { DomainFormTrigger } from '@/components/domainForm';
 
 export default function DashboardLayout({
   children,
@@ -35,10 +36,19 @@ export default function DashboardLayout({
               <Package className="w-5 h-5" />
               <span>My Domains</span>
             </Link>
-            <Link href="/dashboard/settings" className="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-accent-light/5 dark:hover:bg-accent-dark/5">
-              <Settings className="w-5 h-5" />
-              <span>Settings</span>
+            <Link href="/dashboard/my-account" className="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-accent-light/5 dark:hover:bg-accent-dark/5">
+              <UserCircle className="w-5 h-5" />
+              <span>My Account</span>
             </Link>
+            <Link href="/dashboard/connected-accounts" className="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-accent-light/5 dark:hover:bg-accent-dark/5">
+              <LucideLink className="w-5 h-5" />
+              <span>Connected Accounts</span>
+            </Link>
+            
+            {/* Domain Form Trigger in Sidebar */}
+            <div className="pt-4">
+              <DomainFormTrigger variant="button" />
+            </div>
           </nav>
         </div>
       </aside>
@@ -75,7 +85,7 @@ export default function DashboardLayout({
                   </div>
                 </HeadlessMenu.Button>
 
-                <HeadlessMenu.Items className="absolute right-0 mt-2 w-48 bg-white dark:bg-black rounded-lg shadow-lg border border-accent-light/10 dark:border-accent-dark/10 py-1">
+                <HeadlessMenu.Items className="absolute right-0 mt-2 w-48 bg-white/90 dark:bg-black/90 rounded-lg shadow-lg border border-accent-light/10 dark:border-accent-dark/10 py-1 backdrop-blur-lg">
                   <HeadlessMenu.Item>
                     {({ active }) => (
                       <Link href="/dashboard/profile" className={`${active ? 'bg-accent-light/5 dark:bg-accent-dark/5' : ''} flex items-center space-x-2 px-4 py-2`}>

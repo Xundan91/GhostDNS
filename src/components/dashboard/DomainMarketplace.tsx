@@ -1,6 +1,9 @@
 import React from 'react';
 import { Filter, ArrowUpDown } from 'lucide-react';
 
+import { DomainFormTrigger } from '@/components/domainForm';
+
+
 const domains = [
   { name: 'app.build.dev', price: 299, category: 'Premium', tld: '.dev' },
   { name: 'cloud.build.io', price: 199, category: 'Featured', tld: '.io' },
@@ -20,11 +23,12 @@ const DomainMarketplace: React.FC = () => {
           <p className="text-accent-light/60 dark:text-accent-dark/60">Find the perfect domain for your next project</p>
         </div>
         
-        <button className="inline-flex items-center px-4 py-2 bg-accent-light dark:bg-accent-dark text-primary-light dark:text-primary-dark rounded-lg hover:opacity-90 transition-opacity group">
-          {/* <PlusCircle className="w-5 h-5 mr-2" /> */}
-          List Your Domain
-        </button>
+        {/* CTA Button */}
+        <DomainFormTrigger variant="button" />
       </div>
+
+      {/* CTA Card */}
+      <DomainFormTrigger variant="card" className="mb-6" />
 
       {/* Filters */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -36,7 +40,7 @@ const DomainMarketplace: React.FC = () => {
             <option>Featured</option>
             <option>Standard</option>
           </select>
-        </div>
+        </div> 
         
         <div className="relative">
           <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-accent-light/40 dark:text-accent-dark/40" />
