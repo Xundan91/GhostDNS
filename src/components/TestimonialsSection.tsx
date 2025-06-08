@@ -37,13 +37,13 @@ const TestimonialsSection: React.FC = () => {
     {
       quote: "Setup took seconds. Now my portfolio stands out with a clean, professional domain that matches my brand.",
       name: "Ankita Tyagi",
-      role: "Frontend Engineer",
+      role: "Cloud Engineer",
       image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     },
     {
       quote: "The perfect solution for our MVP demo to investors. Professional, instant, and hassle-free.",
       name: "Abhishek sharma",
-      role: "Startup Founder",
+      role: "Founder of GreenHub",
       image: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     }
   ];
