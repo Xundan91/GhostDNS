@@ -30,19 +30,19 @@ const TestimonialsSection: React.FC = () => {
   const testimonials = [
     {
       quote: "DevDomain transformed our hackathon project's presentation. The judges were impressed by the professional domain.",
-      name: "Alex Johnson",
+      name: "Amit singh",
       role: "Full-Stack Developer",
       image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     },
     {
       quote: "Setup took seconds. Now my portfolio stands out with a clean, professional domain that matches my brand.",
-      name: "Sarah Chen",
+      name: "Ankita Tyagi",
       role: "Frontend Engineer",
       image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     },
     {
       quote: "The perfect solution for our MVP demo to investors. Professional, instant, and hassle-free.",
-      name: "Michael Rodriguez",
+      name: "Abhishek sharma",
       role: "Startup Founder",
       image: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     }
