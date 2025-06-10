@@ -16,7 +16,7 @@ const providers = [
   'Hostinger',
   'GoDaddy',
   'Squarespace',
-  'Other'
+  'Railways'
 ];
 
 const DomainProviderStep: React.FC<DomainProviderStepProps> = ({
@@ -26,7 +26,6 @@ const DomainProviderStep: React.FC<DomainProviderStepProps> = ({
   onPrev
 }) => {
   const [selectedProvider, setSelectedProvider] = useState(formData.provider);
-  const [customProvider, setCustomProvider] = useState(formData.customProvider);
   const [error, setError] = useState('');
 
   const handleNext = () => {
@@ -35,7 +34,7 @@ const DomainProviderStep: React.FC<DomainProviderStepProps> = ({
       return;
     }
 
-    if (selectedProvider === 'Other' && !customProvider.trim()) {
+    if (selectedProvider === 'Other' ) {
       setError('Please enter your provider name');
       return;
     }
@@ -43,7 +42,6 @@ const DomainProviderStep: React.FC<DomainProviderStepProps> = ({
     setError('');
     updateFormData({ 
       provider: selectedProvider,
-      customProvider: selectedProvider === 'Other' ? customProvider : ''
     });
     onNext();
   };
@@ -86,21 +84,7 @@ const DomainProviderStep: React.FC<DomainProviderStepProps> = ({
           ))}
         </div>
 
-        {selectedProvider === 'Other' && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-          >
-            <input
-              type="text"
-              value={customProvider}
-              onChange={(e) => setCustomProvider(e.target.value)}
-              placeholder="Enter provider name"
-              className="w-full px-4 py-3 rounded-lg bg-black/5 dark:bg-white/5 border border-white/10 dark:border-white/5 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all duration-200"
-            />
-          </motion.div>
-        )}
+
 
         {error && (
           <motion.p
@@ -125,7 +109,7 @@ const DomainProviderStep: React.FC<DomainProviderStepProps> = ({
 
           <motion.button
             onClick={handleNext}
-            disabled={!selectedProvider || (selectedProvider === 'Other' && !customProvider.trim())}
+            disabled={!selectedProvider }
             className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-blue-500 hover:from-emerald-600 hover:to-blue-600 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-lg font-semibold transition-all duration-300 disabled:cursor-not-allowed"
             whileHover={{ scale: selectedProvider ? 1.02 : 1 }}
             whileTap={{ scale: selectedProvider ? 0.98 : 1 }}

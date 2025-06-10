@@ -1,5 +1,5 @@
 {
-  "id": "42534d88-dbd4-4ab4-8707-1d7417f84ad4",
+  "id": "3df6a2b7-58b0-40ad-aa81-831c55ebba6e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -27,25 +27,24 @@
           "primaryKey": false,
           "notNull": true
         },
-        "is_public": {
-          "name": "is_public",
-          "type": "boolean",
+        "price": {
+          "name": "price",
+          "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "default": true
+          "notNull": true,
+          "default": "'0'"
         },
-        "is_free": {
-          "name": "is_free",
-          "type": "boolean",
+        "api_key": {
+          "name": "api_key",
+          "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "default": true
+          "notNull": false
         },
         "owner_id": {
           "name": "owner_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -74,7 +73,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },

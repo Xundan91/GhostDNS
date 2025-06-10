@@ -2,9 +2,9 @@ CREATE TABLE "basedomain" (
 	"id" text PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"domain_name" text NOT NULL,
 	"platform" text NOT NULL,
-	"is_public" boolean DEFAULT true,
-	"is_free" boolean DEFAULT true,
-	"owner_id" text,
+	"price" text DEFAULT '0' NOT NULL,
+	"api_key" text,
+	"owner_id" text NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now(),
 	"updated_At" timestamp with time zone DEFAULT now(),
 	CONSTRAINT "basedomain_domain_name_unique" UNIQUE("domain_name")
@@ -59,7 +59,7 @@ CREATE TABLE "users" (
 	CONSTRAINT "users_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
-ALTER TABLE "basedomain" ADD CONSTRAINT "basedomain_owner_id_users_id_fk" FOREIGN KEY ("owner_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "basedomain" ADD CONSTRAINT "basedomain_owner_id_users_id_fk" FOREIGN KEY ("owner_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "domainIntegration" ADD CONSTRAINT "domainIntegration_base_domain_id_basedomain_id_fk" FOREIGN KEY ("base_domain_id") REFERENCES "public"."basedomain"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "purchase" ADD CONSTRAINT "purchase_subdomain_claim_id_subdomain_claims_id_fk" FOREIGN KEY ("subdomain_claim_id") REFERENCES "public"."subdomain_claims"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "purchase" ADD CONSTRAINT "purchase_buyer_id_users_id_fk" FOREIGN KEY ("buyer_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint

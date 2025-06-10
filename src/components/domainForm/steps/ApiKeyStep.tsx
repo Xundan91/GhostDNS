@@ -30,7 +30,6 @@ const ApiKeyStep: React.FC<ApiKeyStepProps> = ({
     }
 
     if (apiKey.length < 10) {
-      const a= 10 ;
       setError('API key seems too short. Please check and try again.');
       return;
     }

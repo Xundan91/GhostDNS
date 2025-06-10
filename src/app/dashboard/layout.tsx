@@ -1,11 +1,11 @@
 'use client';
 
-import { Menu, Search, Bell, User, Package, Settings, CreditCard, LogOut, Globe, Link as LucideLink, UserCircle } from 'lucide-react';
+import { Menu, Search, Bell, User, Package, Settings, CreditCard, LogOut, Globe, Link as LucideLink, UserCircle, Heart, Zap } from 'lucide-react';
 import { Menu as HeadlessMenu } from '@headlessui/react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { DomainFormTrigger } from '@/components/domainForm';
+import { useSession } from 'next-auth/react';
 
 export default function DashboardLayout({
   children,
@@ -14,9 +14,56 @@ export default function DashboardLayout({
 }) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    console.log("Dashboard Layout - Session Status:", status);
+    console.log("Dashboard Layout - Session Data:", session);
+
+    if (status === "loading") {
+      console.log("Session is loading...");
+      return;
+    }
+
+    if (status === "unauthenticated") {
+      console.log("User is not authenticated, redirecting to login...");
+      router.replace("/login");
+      return;
+    }
+  }, [status, session, router]);
+
+  if (status === "loading") {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold">Loading...</h2>
+          <p className="text-gray-500">Please wait while we verify your session.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (status === "unauthenticated") {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold">Access Denied</h2>
+          <p className="text-gray-500">Please log in to access the dashboard.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-light via-secondary-light to-primary-light dark:from-primary-dark dark:via-secondary-dark dark:to-primary-dark">
+      {/* Overlay for mobile sidebar */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
       <aside className={`fixed inset-y-0 left-0 z-50 w-64 transform bg-white/80 dark:bg-black/80 backdrop-blur-xl border-r border-accent-light/10 dark:border-accent-dark/10 transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
         <div className="h-full flex flex-col">
@@ -30,25 +77,16 @@ export default function DashboardLayout({
           <nav className="flex-1 p-4 space-y-2">
             <Link href="/dashboard" className="flex items-center space-x-3 px-4 py-3 rounded-lg bg-accent-light/5 dark:bg-accent-dark/5">
               <Globe className="w-5 h-5" />
-              <span>Marketplace</span>
+              <span>My Dashboard</span>
             </Link>
             <Link href="/dashboard/my-domains" className="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-accent-light/5 dark:hover:bg-accent-dark/5">
               <Package className="w-5 h-5" />
               <span>My Domains</span>
             </Link>
-            <Link href="/dashboard/my-account" className="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-accent-light/5 dark:hover:bg-accent-dark/5">
-              <UserCircle className="w-5 h-5" />
-              <span>My Account</span>
-            </Link>
-            <Link href="/dashboard/connected-accounts" className="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-accent-light/5 dark:hover:bg-accent-dark/5">
+            <Link href="/dashboard/connected-platforms" className="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-accent-light/5 dark:hover:bg-accent-dark/5">
               <LucideLink className="w-5 h-5" />
-              <span>Connected Accounts</span>
+              <span>Connected Platforms</span>
             </Link>
-            
-            {/* Domain Form Trigger in Sidebar */}
-            <div className="pt-4">
-              <DomainFormTrigger variant="button" />
-            </div>
           </nav>
         </div>
       </aside>
@@ -89,22 +127,46 @@ export default function DashboardLayout({
                   <HeadlessMenu.Item>
                     {({ active }) => (
                       <Link href="/dashboard/profile" className={`${active ? 'bg-accent-light/5 dark:bg-accent-dark/5' : ''} flex items-center space-x-2 px-4 py-2`}>
-                        <User className="w-4 h-4" />
-                        <span>Profile</span>
+                        <UserCircle className="w-4 h-4" />
+                        <span>My Profile</span>
                       </Link>
                     )}
                   </HeadlessMenu.Item>
                   <HeadlessMenu.Item>
                     {({ active }) => (
-                      <Link href="/dashboard/billing" className={`${active ? 'bg-accent-light/5 dark:bg-accent-dark/5' : ''} flex items-center space-x-2 px-4 py-2`}>
-                        <CreditCard className="w-4 h-4" />
-                        <span>Billing</span>
+                      <Link href="/dashboard/my-domains" className={`${active ? 'bg-accent-light/5 dark:bg-accent-dark/5' : ''} flex items-center space-x-2 px-4 py-2`}>
+                        <Package className="w-4 h-4" />
+                        <span>My Domains</span>
                       </Link>
                     )}
                   </HeadlessMenu.Item>
                   <HeadlessMenu.Item>
                     {({ active }) => (
-                      <button onClick={() => router.push('/login')} className={`${active ? 'bg-accent-light/5 dark:bg-accent-dark/5' : ''} flex items-center space-x-2 px-4 py-2 w-full`}>
+                      <Link href="/dashboard/connected-platforms" className={`${active ? 'bg-accent-light/5 dark:bg-accent-dark/5' : ''} flex items-center space-x-2 px-4 py-2`}>
+                        <LucideLink className="w-4 h-4" />
+                        <span>Platform Connect</span>
+                      </Link>
+                    )}
+                  </HeadlessMenu.Item>
+                  <HeadlessMenu.Item>
+                    {({ active }) => (
+                      <Link href="/dashboard/notifications" className={`${active ? 'bg-accent-light/5 dark:bg-accent-dark/5' : ''} flex items-center space-x-2 px-4 py-2`}>
+                        <Bell className="w-4 h-4" />
+                        <span>Notifications</span>
+                      </Link>
+                    )}
+                  </HeadlessMenu.Item>
+                  <HeadlessMenu.Item>
+                    {({ active }) => (
+                      <Link href="/dashboard/wishlist" className={`${active ? 'bg-accent-light/5 dark:bg-accent-dark/5' : ''} flex items-center space-x-2 px-4 py-2`}>
+                        <Heart className="w-4 h-4" />
+                        <span>Wishlist</span>
+                      </Link>
+                    )}
+                  </HeadlessMenu.Item>
+                  <HeadlessMenu.Item>
+                    {({ active }) => (
+                      <button onClick={() => router.push('/login')} className={`${active ? 'bg-accent-light/5 dark:bg-accent-dark/5' : ''} flex items-center space-x-2 px-4 py-2 w-full text-left`}>
                         <LogOut className="w-4 h-4" />
                         <span>Logout</span>
                       </button>

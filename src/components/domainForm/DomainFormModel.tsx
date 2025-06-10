@@ -17,9 +17,8 @@ interface DomainFormModalProps {
 export interface FormData {
   domainName: string;
   provider: string;
-  customProvider: string;
   pricingType: 'free' | 'paid';
-  price: number;
+  price?: number;
   apiKey: string;
 }
 
@@ -28,8 +27,7 @@ const DomainFormModal: React.FC<DomainFormModalProps> = ({ isOpen, onClose }) =>
   const [formData, setFormData] = useState<FormData>({
     domainName: '',
     provider: '',
-    customProvider: '',
-    pricingType: 'free',
+    pricingType: 'free' ,
     price: 0,
     apiKey: ''
   });
@@ -57,7 +55,6 @@ const DomainFormModal: React.FC<DomainFormModalProps> = ({ isOpen, onClose }) =>
     setFormData({
       domainName: '',
       provider: '',
-      customProvider: '',
       pricingType: 'free',
       price: 0,
       apiKey: ''

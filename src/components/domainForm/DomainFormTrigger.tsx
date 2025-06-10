@@ -42,20 +42,20 @@ const DomainFormTrigger: React.FC<DomainFormTriggerProps> = ({
     );
   }
 
-  if (variant === 'sidebar') {
-    return (
-      <>
-        <button
-          onClick={handleClick}
-          className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg bg-gradient-to-r from-emerald-500/10 to-blue-500/10 dark:from-emerald-400/10 dark:to-blue-400/10 border border-emerald-200/20 dark:border-emerald-400/20 hover:border-emerald-300/30 dark:hover:border-emerald-300/30 transition-all duration-300 group ${className}`}
-        >
-          <DollarSign className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-          <span className="text-sm font-medium">Have a domain? Make money from it</span>
-        </button>
-        <DomainFormModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-      </>
-    );
-  }
+  // if (variant === 'sidebar') {
+  //   return (
+  //     <>
+  //       <button
+  //         onClick={handleClick}
+  //         className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg bg-gradient-to-r from-emerald-500/10 to-blue-500/10 dark:from-emerald-400/10 dark:to-blue-400/10 border border-emerald-200/20 dark:border-emerald-400/20 hover:border-emerald-300/30 dark:hover:border-emerald-300/30 transition-all duration-300 group ${className}`}
+  //       >
+  //         <DollarSign className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+  //         <span className="text-sm font-medium">Have a domain? Make money from it</span>
+  //       </button>
+  //       <DomainFormModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+  //     </>
+  //   );
+  // }
 
   return (
     <>
