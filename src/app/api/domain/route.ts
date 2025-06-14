@@ -5,7 +5,6 @@ import { basedomain } from "@/database/schema/basedomain";
 import { authOptions } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 
-// Keep track of recent submissions to prevent duplicates
 const recentSubmissions = new Map<string, number>();
 const SUBMISSION_TIMEOUT = 2000; // 2 seconds
 
