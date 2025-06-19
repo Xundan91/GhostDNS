@@ -35,11 +35,6 @@ const Login: React.FC = () => {
     const password = formData.get("password") as string;
 
     try {
-      // First, check auth configuration
-      const authCheck = await fetch("/api/test-auth");
-      const authConfig = await authCheck.json();
-      console.log("Auth configuration:", authConfig);
-
       console.log("Starting sign in process...");
       const result = await signIn("credentials", {
         email,
@@ -56,19 +51,8 @@ const Login: React.FC = () => {
       }
 
       if (result?.ok) {
-        console.log("Sign in successful");
-        // Check auth configuration again after sign in
-        const postAuthCheck = await fetch("/api/test-auth");
-        const postAuthConfig = await postAuthCheck.json();
-        console.log("Post-auth configuration:", postAuthConfig);
-
-        if (postAuthConfig.hasSession) {
-          console.log("Session established, redirecting...");
-          window.location.href = "/dashboard";
-        } else {
-          console.error("Sign in succeeded but no session was established");
-          setError("Authentication succeeded but session creation failed");
-        }
+        console.log("Sign in successful, redirecting to dashboard...");
+        router.push("/dashboard");
       }
     } catch (error) {
       console.error("Sign in error:", error);

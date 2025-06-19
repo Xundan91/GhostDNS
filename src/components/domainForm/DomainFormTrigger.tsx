@@ -7,16 +7,26 @@ import DomainFormModal from './DomainFormModel';
 interface DomainFormTriggerProps {
   variant?: 'card' | 'button' | 'sidebar';
   className?: string;
+  onDomainAdded?: () => void;
 }
 
 const DomainFormTrigger: React.FC<DomainFormTriggerProps> = ({ 
   variant = 'button',
-  className = ''
+  className = '',
+  onDomainAdded
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleClick = () => {
     setIsModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+    // Call the callback when modal is closed (domain was added)
+    if (onDomainAdded) {
+      onDomainAdded();
+    }
   };
 
   if (variant === 'card') {
@@ -37,12 +47,10 @@ const DomainFormTrigger: React.FC<DomainFormTriggerProps> = ({
             <Plus className="w-5 h-5 opacity-50 group-hover:opacity-100 transition-opacity" />
           </div>
         </div>
-        <DomainFormModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        <DomainFormModal isOpen={isModalOpen} onClose={handleClose} />
       </>
     );
   }
-
-
 
   return (
     <>
@@ -53,7 +61,7 @@ const DomainFormTrigger: React.FC<DomainFormTriggerProps> = ({
         <DollarSign className="w-5 h-5" />
         <span>Have a domain? Make money from it</span>
       </button>
-      <DomainFormModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <DomainFormModal isOpen={isModalOpen} onClose={handleClose} />
     </>
   );
 };

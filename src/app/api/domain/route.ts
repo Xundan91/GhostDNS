@@ -10,11 +10,7 @@ const SUBMISSION_TIMEOUT = 2000; // 2 seconds
 
 export async function GET() {
     try {
-        const session = await getServerSession(authOptions);
-        if (!session || !session.user?.id) {
-            return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-        }
-
+        // For marketplace, we want to show all domains, not just user-specific ones
         const domains = await db.select({
             id: basedomain.id,
             domainName: basedomain.domainName,
@@ -22,8 +18,7 @@ export async function GET() {
             price: basedomain.price,
             createdAt: basedomain.createdAt
         })
-        .from(basedomain)
-        .where(eq(basedomain.ownerId, session.user.id));
+        .from(basedomain);
 
         return NextResponse.json({ domains });
     } catch (error) {
