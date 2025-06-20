@@ -5,7 +5,7 @@ import { Menu as HeadlessMenu } from '@headlessui/react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import ThemeToggle from '@/components/ThemeToggle';
 
 export default function DashboardLayout({
@@ -238,7 +238,17 @@ export default function DashboardLayout({
                   </HeadlessMenu.Item>
                   <HeadlessMenu.Item>
                     {({ active }) => (
-                      <button onClick={() => router.push('/login')} className={`${active ? 'bg-accent-light/10 dark:bg-accent-dark/10' : ''} flex items-center space-x-2 px-4 py-2 w-full text-left`}>
+                      <button
+                        onClick={() => {
+                          // Clear all local and session storage
+                          if (typeof window !== 'undefined') {
+                            localStorage.clear();
+                            sessionStorage.clear();
+                          }
+                          signOut({ callbackUrl: '/' });
+                        }}
+                        className={`${active ? 'bg-accent-light/10 dark:bg-accent-dark/10' : ''} flex items-center space-x-2 px-4 py-2 w-full text-left`}
+                      >
                         <LogOut className="w-4 h-4" />
                         <span>Logout</span>
                       </button>

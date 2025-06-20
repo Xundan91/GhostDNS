@@ -11,10 +11,10 @@ const HeroSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <h1 className="relative">
-              <span className="block text-4xl md:text-5xl lg:text-6xl font-bold leading-tight bg-gradient-to-r from-accent-light via-accent-light to-accent-light/70 dark:from-accent-dark dark:via-accent-dark dark:to-accent-dark/70 bg-clip-text text-transparent">
+              <span className="block text-4xl md:text-5xl lg:text-6xl font-bold leading-tight bg-gradient-to-r from-accent-light via-accent-light to-accent-light/70 dark:from-accent-dark dark:via-accent-dark dark:to-accent-dark/70 bg-clip-text text-transparent drop-shadow-[0_12px_48px_rgba(0,0,0,0.6)] drop-shadow-lg">
                 Subdomain Marketplace
               </span>
-              <span className="block mt-3 text-2xl md:text-3xl lg:text-4xl font-semibold">
+              <span className="block mt-3 text-2xl md:text-3xl lg:text-4xl font-semibold drop-shadow-[0_8px_36px_rgba(0,0,0,0.5)] drop-shadow">
                 for{' '}
                 <span className="relative inline-block">
                   Hackers
