@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import ThemeToggle from '@/components/ThemeToggle';
+import AuthLoadingSkeleton from '@/components/AuthLoadingSkeleton';
 
 export default function DashboardLayout({
   children,
@@ -45,25 +46,11 @@ export default function DashboardLayout({
   };
 
   if (status === "loading") {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-xl font-semibold">Loading...</h2>
-          <p className="text-gray-500">Please wait while we verify your session.</p>
-        </div>
-      </div>
-    );
+    return <AuthLoadingSkeleton />;
   }
 
   if (status === "unauthenticated") {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-xl font-semibold">Access Denied</h2>
-          <p className="text-gray-500">Please log in to access the dashboard.</p>
-        </div>
-      </div>
-    );
+    return <AuthLoadingSkeleton />;
   }
 
   return (
@@ -113,7 +100,7 @@ export default function DashboardLayout({
                   : 'hover:bg-accent-light/10 dark:hover:bg-accent-dark/10'
               }`}
             >
-              <Globe className="w-5 h-5 text-emerald-500" />
+              <Globe className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-5 h-5'} text-emerald-500`} />
               {!sidebarCollapsed && <span className="font-medium">My Dashboard</span>}
             </Link>
             
@@ -125,7 +112,7 @@ export default function DashboardLayout({
                   : 'hover:bg-accent-light/10 dark:hover:bg-accent-dark/10'
               }`}
             >
-              <Package className="w-5 h-5 text-blue-500" />
+              <Package className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-5 h-5'} text-blue-500`} />
               {!sidebarCollapsed && <span>My Domains</span>}
             </Link>
             
@@ -137,7 +124,7 @@ export default function DashboardLayout({
                   : 'hover:bg-accent-light/10 dark:hover:bg-accent-dark/10'
               }`}
             >
-              <Zap className="w-5 h-5 text-purple-500" />
+              <Zap className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-5 h-5'} text-purple-500`} />
               {!sidebarCollapsed && <span>Purchased Domains</span>}
             </Link>
             
@@ -149,7 +136,7 @@ export default function DashboardLayout({
                   : 'hover:bg-accent-light/10 dark:hover:bg-accent-dark/10'
               }`}
             >
-              <ShoppingCart className="w-5 h-5 text-orange-500" />
+              <ShoppingCart className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-5 h-5'} text-orange-500`} />
               {!sidebarCollapsed && <span>Cart</span>}
             </Link>
             
@@ -161,7 +148,7 @@ export default function DashboardLayout({
                   : 'hover:bg-accent-light/10 dark:hover:bg-accent-dark/10'
               }`}
             >
-              <UserCircle className="w-5 h-5 text-indigo-500" />
+              <UserCircle className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-5 h-5'} text-indigo-500`} />
               {!sidebarCollapsed && <span>Account</span>}
             </Link>
           </nav>

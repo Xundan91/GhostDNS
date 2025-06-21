@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import AuthLayout from './AuthLayout';
 import Button from './Button';
+import AuthLoadingSkeleton from './AuthLoadingSkeleton';
 
 const Signup: React.FC = () => {
   const [form, setForm] = useState({
@@ -60,6 +61,10 @@ const Signup: React.FC = () => {
       setLoading(false);
     }
   };
+
+  if (loading) {
+    return <AuthLoadingSkeleton />;
+  }
 
   return (
     <AuthLayout 
@@ -143,7 +148,7 @@ const Signup: React.FC = () => {
           />
         </div>
 
-        <Button className="w-full" type="submit" disabled={loading}>
+        <Button className="w-full" type="submit" loading={loading}>
           {loading ? "Creating..." : "Create Account"}
         </Button>
 

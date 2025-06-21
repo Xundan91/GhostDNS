@@ -5,6 +5,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import AuthLayout from "./AuthLayout";
 import Button from "./Button";
+import AuthLoadingSkeleton from "./AuthLoadingSkeleton";
 
 const Login: React.FC = () => {
   const router = useRouter();
@@ -63,25 +64,11 @@ const Login: React.FC = () => {
   };
 
   if (status === "loading") {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-xl font-semibold">Loading...</h2>
-          <p className="text-gray-500">Please wait while we verify your session.</p>
-        </div>
-      </div>
-    );
+    return <AuthLoadingSkeleton />;
   }
 
   if (status === "authenticated" && session?.user) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-xl font-semibold">Authenticated</h2>
-          <p className="text-gray-500">Redirecting to dashboard...</p>
-        </div>
-      </div>
-    );
+    return <AuthLoadingSkeleton />;
   }
 
   return (
@@ -140,7 +127,7 @@ const Login: React.FC = () => {
           </p>
         )}
 
-        <Button className="w-full" type="submit" disabled={isLoading}>
+        <Button className="w-full" type="submit" loading={isLoading}>
           {isLoading ? "Signing in..." : "Sign in"}
         </Button>
 
