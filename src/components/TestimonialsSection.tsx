@@ -10,7 +10,7 @@ type TestimonialProps = {
 const Testimonial: React.FC<TestimonialProps> = ({ quote, name, role, image }) => {
   return (
     <div className="bg-secondary-light dark:bg-secondary-dark p-8 rounded-xl border border-accent-light/10 dark:border-accent-dark/10 backdrop-blur-sm">
-      <p className="text-lg opacity-80 mb-6">"{quote}"</p>
+      <p className="text-lg opacity-80 mb-6 text-accent-light dark:text-accent-dark">"{quote}"</p>
       <div className="flex items-center">
         <img
           src={image}
@@ -18,8 +18,8 @@ const Testimonial: React.FC<TestimonialProps> = ({ quote, name, role, image }) =
           className="w-12 h-12 rounded-full object-cover mr-4"
         />
         <div>
-          <h4 className="font-semibold">{name}</h4>
-          <p className="opacity-60 text-sm">{role}</p>
+          <h4 className="font-semibold text-accent-light dark:text-accent-dark">{name}</h4>
+          <p className="opacity-60 text-sm text-accent-light dark:text-accent-dark">{role}</p>
         </div>
       </div>
     </div>
@@ -52,8 +52,8 @@ const TestimonialsSection: React.FC = () => {
     <section className="py-20 px-4">
       <div className="container mx-auto max-w-7xl">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Trusted by Developers</h2>
-          <p className="text-xl opacity-80 max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-accent-light dark:text-accent-dark">Trusted by Developers</h2>
+          <p className="text-xl opacity-80 max-w-2xl mx-auto text-accent-light dark:text-accent-dark">
             Join thousands of developers who've elevated their projects with DevDomain.
           </p>
         </div>

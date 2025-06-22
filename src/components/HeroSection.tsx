@@ -14,7 +14,7 @@ const HeroSection: React.FC = () => {
               <span className="block text-4xl md:text-5xl lg:text-6xl font-bold leading-tight bg-gradient-to-r from-accent-light via-accent-light to-accent-light/70 dark:from-accent-dark dark:via-accent-dark dark:to-accent-dark/70 bg-clip-text text-transparent drop-shadow-[0_12px_48px_rgba(0,0,0,0.6)] drop-shadow-lg">
                 Subdomain Marketplace
               </span>
-              <span className="block mt-3 text-2xl md:text-3xl lg:text-4xl font-semibold drop-shadow-[0_8px_36px_rgba(0,0,0,0.5)] drop-shadow">
+              <span className="block mt-3 text-2xl md:text-3xl lg:text-4xl font-semibold drop-shadow-[0_8px_36px_rgba(0,0,0,0.5)] drop-shadow text-accent-light dark:text-accent-dark">
                 for{' '}
                 <span className="relative inline-block">
                   Hackers
@@ -27,7 +27,7 @@ const HeroSection: React.FC = () => {
                 </span>
               </span>
             </h1>
-            <p className="text-xl opacity-80">
+            <p className="text-xl opacity-80 text-accent-light dark:text-accent-dark">
               Launch your next project with a premium subdomain. Instant setup, zero configuration.
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">

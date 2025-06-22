@@ -10,8 +10,8 @@ const FeaturesSection: React.FC = () => {
       
       <div className="container mx-auto max-w-7xl relative">
         <div className="text-center mb-24">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Custom Subdomains for Hackers and Builders</h2>
-          <p className="text-xl opacity-70 max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-accent-light dark:text-accent-dark">Custom Subdomains for Hackers and Builders</h2>
+          <p className="text-xl opacity-70 max-w-2xl mx-auto text-accent-light dark:text-accent-dark">
             Connect your projects to premium subdomains in seconds. Perfect for hackathons, MVPs, and production.
           </p>
         </div>
@@ -20,31 +20,31 @@ const FeaturesSection: React.FC = () => {
           <div className="bg-secondary-light/30 dark:bg-secondary-dark/30 rounded-2xl p-8 backdrop-blur-md border border-accent-light/10 dark:border-accent-dark/10 hover:transform hover:scale-105 transition-all duration-500">
             <div className="flex items-center space-x-3 mb-6">
               <div className="p-3 rounded-xl bg-accent-light/5 dark:bg-accent-dark/5">
-                <Globe className="w-6 h-6" />
+                <Globe className="w-6 h-6 text-accent-light dark:text-accent-dark" />
               </div>
-              <h3 className="text-xl font-semibold">Vercel Projects</h3>
+              <h3 className="text-xl font-semibold text-accent-light dark:text-accent-dark">Vercel Projects</h3>
             </div>
-            <p className="opacity-70">Instantly connect your Vercel deployments to a custom subdomain with zero configuration.</p>
+            <p className="opacity-70 text-accent-light dark:text-accent-dark">Instantly connect your Vercel deployments to a custom subdomain with zero configuration.</p>
           </div>
 
           <div className="bg-secondary-light/30 dark:bg-secondary-dark/30 rounded-2xl p-8 backdrop-blur-md border border-accent-light/10 dark:border-accent-dark/10 hover:transform hover:scale-105 transition-all duration-500">
             <div className="flex items-center space-x-3 mb-6">
               <div className="p-3 rounded-xl bg-accent-light/5 dark:bg-accent-dark/5">
-                <Rocket className="w-6 h-6" />
+                <Rocket className="w-6 h-6 text-accent-light dark:text-accent-dark" />
               </div>
-              <h3 className="text-xl font-semibold">Netlify Sites</h3>
+              <h3 className="text-xl font-semibold text-accent-light dark:text-accent-dark">Netlify Sites</h3>
             </div>
-            <p className="opacity-70">One-click integration with your Netlify deployments. No DNS hassle.</p>
+            <p className="opacity-70 text-accent-light dark:text-accent-dark">One-click integration with your Netlify deployments. No DNS hassle.</p>
           </div>
 
           <div className="bg-secondary-light/30 dark:bg-secondary-dark/30 rounded-2xl p-8 backdrop-blur-md border border-accent-light/10 dark:border-accent-dark/10 hover:transform hover:scale-105 transition-all duration-500">
             <div className="flex items-center space-x-3 mb-6">
               <div className="p-3 rounded-xl bg-accent-light/5 dark:bg-accent-dark/5">
-                <Link className="w-6 h-6" />
+                <Link className="w-6 h-6 text-accent-light dark:text-accent-dark" />
               </div>
-              <h3 className="text-xl font-semibold">Custom Domains</h3>
+              <h3 className="text-xl font-semibold text-accent-light dark:text-accent-dark">Custom Domains</h3>
             </div>
-            <p className="opacity-70">Point any domain or subdomain to your project with automated SSL and CDN.</p>
+            <p className="opacity-70 text-accent-light dark:text-accent-dark">Point any domain or subdomain to your project with automated SSL and CDN.</p>
           </div>
         </div>
 
@@ -52,8 +52,8 @@ const FeaturesSection: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-br from-accent-light/5 to-transparent dark:from-accent-dark/5"></div>
           <div className="p-8 md:p-12">
             <div className="text-center mb-12">
-              <h3 className="text-2xl md:text-3xl font-bold mb-4">See How It Works</h3>
-              <p className="text-lg opacity-70">Connect your project in under 30 seconds</p>
+              <h3 className="text-2xl md:text-3xl font-bold mb-4 text-accent-light dark:text-accent-dark">See How It Works</h3>
+              <p className="text-lg opacity-70 text-accent-light dark:text-accent-dark">Connect your project in under 30 seconds</p>
             </div>
             
             <div className="relative aspect-video rounded-xl overflow-hidden border border-accent-light/10 dark:border-accent-dark/10">

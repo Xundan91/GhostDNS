@@ -6,8 +6,7 @@ export const basedomain = pgTable("basedomain",{
     domainName : text("domain_name").notNull().unique(),
     platform: text("platform").notNull(),
     price: text("price").notNull().default("0"), 
-    apiKey: text("api_key"), 
-
+    apiKey: text("api_key"),       
     ownerId : text("owner_id").notNull().references(()=>users.id,{
         onDelete:"cascade"
     }),

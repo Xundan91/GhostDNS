@@ -26,14 +26,14 @@ const Navbar: React.FC = () => {
       <div className="container mx-auto max-w-7xl px-4 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
-            <Command className="w-8 h-8" />
-            <span className="text-xl font-bold">DevDomain</span>
+            <Command className="w-8 h-8 text-accent-light dark:text-accent-dark" />
+            <span className="text-xl font-bold text-accent-light dark:text-accent-dark">DevDomain</span>
           </Link>
 
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="#" className="hover:text-accent-light dark:hover:text-accent-dark transition-colors">Features</Link>
-            <Link href="#" className="hover:text-accent-light dark:hover:text-accent-dark transition-colors">Pricing</Link>
-            <Link href="#" className="hover:text-accent-light dark:hover:text-accent-dark transition-colors">Docs</Link>
+            <Link href="#" className="text-accent-light dark:text-accent-dark hover:text-accent-light dark:hover:text-accent-dark transition-colors">Features</Link>
+            <Link href="#" className="text-accent-light dark:text-accent-dark hover:text-accent-light dark:hover:text-accent-dark transition-colors">Pricing</Link>
+            <Link href="#" className="text-accent-light dark:text-accent-dark hover:text-accent-light dark:hover:text-accent-dark transition-colors">Docs</Link>
             <ThemeToggle />
             <Link href="/login" passHref>
               <Button>Get Started</Button>
@@ -43,7 +43,7 @@ const Navbar: React.FC = () => {
           <div className="md:hidden flex items-center space-x-4">
             <ThemeToggle />
             <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-6 h-6 text-accent-light dark:text-accent-dark" /> : <Menu className="w-6 h-6 text-accent-light dark:text-accent-dark" />}
             </button>
           </div>
         </div>
@@ -51,9 +51,9 @@ const Navbar: React.FC = () => {
         {mobileMenuOpen && (
           <div className="md:hidden absolute top-full left-0 w-full backdrop-blur-md bg-primary-light/90 dark:bg-primary-dark/90 border-t border-secondary-light dark:border-secondary-dark">
             <div className="p-4 space-y-4">
-              <Link href="#" className="block hover:text-accent-light dark:hover:text-accent-dark transition-colors">Features</Link>
-              <Link href="#" className="block hover:text-accent-light dark:hover:text-accent-dark transition-colors">Pricing</Link>
-              <Link href="#" className="block hover:text-accent-light dark:hover:text-accent-dark transition-colors">Docs</Link>
+              <Link href="#" className="block text-accent-light dark:text-accent-dark hover:text-accent-light dark:hover:text-accent-dark transition-colors">Features</Link>
+              <Link href="#" className="block text-accent-light dark:text-accent-dark hover:text-accent-light dark:hover:text-accent-dark transition-colors">Pricing</Link>
+              <Link href="#" className="block text-accent-light dark:text-accent-dark hover:text-accent-light dark:hover:text-accent-dark transition-colors">Docs</Link>
               <Link href="/login" passHref>
                 <Button className="w-full">Get Started</Button>
               </Link>

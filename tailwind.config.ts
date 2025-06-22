@@ -10,7 +10,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Inter', 'Helvetica Neue', 'system-ui', 'sans-serif'],
+        serif: ['DM Serif Display', 'Georgia', 'serif'],
       },
       colors: {
         primary: {
@@ -24,7 +25,16 @@ const config: Config = {
         accent: {
           light: '#000000',
           dark: '#FFFFFF',
-        }
+        },
+        dashboard: {
+          background: '#f4f4f5', // light gray
+          primaryText: '#27272a', // dark gray, nearly black
+          subtext: '#52525b', // medium gray
+          buttonBg: '#18181b', // black-gray
+          buttonText: '#ffffff',
+          inputBg: '#ffffff',
+          inputBorder: '#e4e4e7',
+        },
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',

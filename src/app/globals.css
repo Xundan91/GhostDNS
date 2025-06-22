@@ -1,14 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital,wght@0,400;1,400&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body {
-    @apply bg-primary-light text-accent-light transition-colors duration-300;
+    @apply bg-dashboard-background text-dashboard-primaryText font-sans transition-colors duration-300;
   }
 
   .dark body {
     @apply bg-primary-dark text-accent-dark;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    color: theme('colors.dashboard.primaryText');
+  }
+  
+  .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+    color: theme('colors.accent.dark');
+  }
+  
+  .dashboard-heading {
+    font-family: 'DM Serif Display', Georgia, serif;
+    color: theme('colors.dashboard.primaryText');
+  }
+  
+  .dark .dashboard-heading {
+    color: theme('colors.accent.dark');
+  }
+  
+  .dashboard-subtext {
+    color: theme('colors.dashboard.subtext');
+  }
+  
+  .dark .dashboard-subtext {
+    color: theme('colors.accent.dark');
+  }
+  
+  .dashboard-btn {
+    background: theme('colors.dashboard.buttonBg');
+    color: theme('colors.dashboard.buttonText');
+  }
+  
+  .dashboard-input {
+    background: theme('colors.dashboard.inputBg');
+    border-color: theme('colors.dashboard.inputBorder');
   }
 }
 

@@ -10,7 +10,7 @@ const CTASection: React.FC = () => {
           Join thousands of developers who've upgraded their project domains. Free tier available.
         </p>
         <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-          <Button className="bg-white text-black hover:bg-gray-100 border-0">
+          <Button className="bg-white text-black dark:bg-white dark:text-black hover:bg-gray-100 dark:hover:bg-gray-100 border-0">
             Get Started Now
           </Button>
           <Button primary={false} className="border-white text-white hover:bg-white/10">
