@@ -57,18 +57,14 @@ const FeaturesSection: React.FC = () => {
             </div>
             
             <div className="relative aspect-video rounded-xl overflow-hidden border border-accent-light/10 dark:border-accent-dark/10">
-              <video 
-                className="w-full h-full object-cover"
-                autoPlay 
-                loop 
-                muted 
-                playsInline
-              >
-                <source src="https://storage.googleapis.com/stackblitz-videos/domain-demo.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-              
-              <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/20 to-transparent"></div>
+              <iframe
+                className="w-full h-full"
+                src="https://www.youtube.com/embed/VMKbwYMoxX4"
+                title="How DevDomain Works"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              ></iframe>
             </div>
           </div>
         </div>
