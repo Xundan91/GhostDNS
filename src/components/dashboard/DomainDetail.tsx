@@ -69,9 +69,27 @@ const DomainDetail: React.FC<DomainDetailProps> = ({ domainId }) => {
     console.log('Adding to wishlist:', domain?.domainName);
   };
 
-  const handlePurchase = () => {
-    // TODO: Implement purchase functionality
-    console.log('Purchasing:', domain?.domainName);
+  const handlePurchase = async () => {
+    if (!domain?.id) {
+      alert('Domain ID not found.');
+      return;
+    }
+    try {
+      const res = await fetch('/api/purchase', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ basedomainId: domain.id }),
+      });
+      const data = await res.json();
+      if (data.purchase) {
+        alert('Domain purchased successfully!');
+        // Optionally, refresh domain details or redirect
+      } else {
+        alert(data.error || 'Failed to purchase domain.');
+      }
+    } catch (error) {
+      alert('An error occurred while purchasing the domain.');
+    }
   };
 
   if (loading) {

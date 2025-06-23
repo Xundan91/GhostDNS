@@ -29,12 +29,25 @@ const PurchasedDomains: React.FC = () => {
   const fetchPurchases = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/purchase/user');
+      const response = await fetch('/api/purchase');
       if (!response.ok) {
         throw new Error('Failed to fetch purchased domains');
       }
       const data = await response.json();
-      setPurchases(data.purchases || []);
+      const mappedPurchases = (data.purchases || []).map((purchase: any) => ({
+        purchaseId: purchase.purchaseId,
+        price: purchase.price,
+        status: purchase.status,
+        timestamp: purchase.timestamp,
+        domainName: purchase.domain?.domainName || '',
+        platform: purchase.domain?.platform || '',
+        basedomainId: purchase.domain?.id || '',
+        claimId: '',
+        fulldomain: '',
+        dnsStatus: '',
+        createdAt: '',
+      }));
+      setPurchases(mappedPurchases);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {

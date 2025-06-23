@@ -30,4 +30,39 @@ export async function GET() {
             { status: 500 }
         );
     }
+}
+
+export async function POST(req: Request) {
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user?.id) {
+        return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    }
+
+    const body = await req.json();
+    // Use 'platform' instead of 'provider' for consistency with schema
+    const { domainName, platform, pricingType, price, apiKey } = body;
+
+    // Validate required fields
+    if (!domainName || !platform) {
+        return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    // Ensure price is a string
+    const priceStr = pricingType === 'free' ? "0" : String(price ?? "0");
+
+    try {
+        const [createdDomain] = await db.insert(basedomain).values({
+            domainName,
+            platform,
+            price: priceStr,
+            ownerId: session.user.id,
+            apiKey,
+        }).returning();
+
+        return NextResponse.json({ message: "Domain submitted successfully", domain: createdDomain }, { status: 200 });
+    } catch (error) {
+        console.error(`[Domain submit error]:`, error);
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    }
 } 
