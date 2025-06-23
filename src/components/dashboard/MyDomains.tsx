@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Filter, ArrowUpDown, Edit, Trash2, Eye, Plus, Package, DollarSign, Globe } from 'lucide-react';
+import { Filter, ArrowUpDown, Edit, Trash2, Eye, Plus, Package, DollarSign } from 'lucide-react';
 import { DomainFormTrigger } from '@/components/domainForm';
 
 interface Domain {
@@ -41,23 +41,6 @@ const MyDomains: React.FC = () => {
   const getTLD = (domainName: string) => {
     const parts = domainName.split('.');
     return parts.length > 1 ? `.${parts[parts.length - 1]}` : '';
-  };
-
-  // Helper function to categorize domains based on price
-  const getCategory = (price: string) => {
-    const numPrice = parseFloat(price);
-    if (numPrice >= 200) return 'Premium';
-    if (numPrice >= 100) return 'Featured';
-    return 'Standard';
-  };
-
-  // Helper function to format date
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
   };
 
   if (loading) {
@@ -132,7 +115,7 @@ const MyDomains: React.FC = () => {
 
       {/* Stats Cards */}
       {domains.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div className="bg-white/80 dark:bg-black/80 backdrop-blur-xl rounded-xl border border-accent-light/10 dark:border-accent-dark/10 p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -158,55 +141,6 @@ const MyDomains: React.FC = () => {
               </div>
             </div>
           </div>
-          
-          <div className="bg-white/80 dark:bg-black/80 backdrop-blur-xl rounded-xl border border-accent-light/10 dark:border-accent-dark/10 p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-accent-light/60 dark:text-accent-dark/60">Platforms</p>
-                <p className="text-2xl font-bold">
-                  {new Set(domains.map(d => d.platform)).size}
-                </p>
-              </div>
-              <div className="p-3 rounded-xl bg-purple-500/10">
-                <Globe className="w-6 h-6 text-purple-500" />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Filters */}
-      {domains.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="relative">
-            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-accent-light/40 dark:text-accent-dark/40" />
-            <select className="w-full pl-10 pr-4 py-2 bg-accent-light/5 dark:bg-accent-dark/5 rounded-lg focus:outline-none focus:ring-1 focus:ring-accent-light/20 dark:focus:ring-accent-dark/20 appearance-none">
-              <option>All Categories</option>
-              <option>Premium</option>
-              <option>Featured</option>
-              <option>Standard</option>
-            </select>
-          </div>
-          
-          <div className="relative">
-            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-accent-light/40 dark:text-accent-dark/40" />
-            <select className="w-full pl-10 pr-4 py-2 bg-accent-light/5 dark:bg-accent-dark/5 rounded-lg focus:outline-none focus:ring-1 focus:ring-accent-light/20 dark:focus:ring-accent-dark/20 appearance-none">
-              <option>All Platforms</option>
-              {Array.from(new Set(domains.map(d => d.platform))).map(platform => (
-                <option key={platform}>{platform}</option>
-              ))}
-            </select>
-          </div>
-          
-          <div className="relative">
-            <ArrowUpDown className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-accent-light/40 dark:text-accent-dark/40" />
-            <select className="w-full pl-10 pr-4 py-2 bg-accent-light/5 dark:bg-accent-dark/5 rounded-lg focus:outline-none focus:ring-1 focus:ring-accent-light/20 dark:focus:ring-accent-dark/20 appearance-none">
-              <option>Date: Newest First</option>
-              <option>Date: Oldest First</option>
-              <option>Price: High to Low</option>
-              <option>Price: Low to High</option>
-            </select>
-          </div>
         </div>
       )}
 
@@ -227,24 +161,12 @@ const MyDomains: React.FC = () => {
           </div>
         ) : (
           domains.map((domain) => {
-            const category = getCategory(domain.price);
             const tld = getTLD(domain.domainName);
             
             return (
               <div key={domain.id} className="group relative bg-white/80 dark:bg-black/80 backdrop-blur-xl rounded-xl border border-accent-light/10 dark:border-accent-dark/10 p-6 hover:border-accent-light/20 dark:hover:border-accent-dark/20 transition-all duration-300">
-                <div className="absolute top-4 right-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium
-                    ${category === 'Premium' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-200' : 
-                      category === 'Featured' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200' :
-                      'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200'}`}>
-                    {category}
-                  </span>
-                </div>
-                
                 <h3 className="text-lg font-semibold mb-2">{domain.domainName}</h3>
                 <p className="text-2xl font-bold mb-4">${domain.price}</p>
-                <p className="text-sm text-accent-light/60 dark:text-accent-dark/60 mb-2">Platform: {domain.platform}</p>
-                <p className="text-sm text-accent-light/60 dark:text-accent-dark/60 mb-4">Listed: {formatDate(domain.createdAt)}</p>
                 
                 {/* Action Buttons */}
                 <div className="flex space-x-2">

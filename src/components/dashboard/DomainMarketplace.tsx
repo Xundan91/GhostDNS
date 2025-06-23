@@ -24,8 +24,6 @@ const DomainMarketplace: React.FC = () => {
   const [filteredDomains, setFilteredDomains] = useState<Domain[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showPurchaseModal, setShowPurchaseModal] = useState(false);
-  const [selectedDomain, setSelectedDomain] = useState<Domain | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOption, setSortOption] = useState<SortOption>('date-desc');
   const [showSortMenu, setShowSortMenu] = useState(false);
@@ -109,14 +107,6 @@ const DomainMarketplace: React.FC = () => {
     return parts.length > 1 ? `.${parts[parts.length - 1]}` : '';
   };
 
-  // Helper function to categorize domains based on price
-  const getCategory = (price: string) => {
-    const numPrice = parseFloat(price);
-    if (numPrice >= 200) return 'Premium';
-    if (numPrice >= 100) return 'Featured';
-    return 'Standard';
-  };
-
   // Helper function to format date
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -132,8 +122,8 @@ const DomainMarketplace: React.FC = () => {
 
   const handlePurchase = (domain: Domain, e: React.MouseEvent) => {
     e.stopPropagation();
-    setSelectedDomain(domain);
-    setShowPurchaseModal(true);
+    // TODO: Implement purchase functionality
+    console.log('Purchasing:', domain.domainName);
   };
 
   const handleAddToCart = (domain: Domain, e: React.MouseEvent) => {
@@ -146,31 +136,6 @@ const DomainMarketplace: React.FC = () => {
     e.stopPropagation();
     // TODO: Implement add to wishlist functionality
     console.log('Adding to wishlist:', domain.domainName);
-  };
-
-  const confirmPurchase = async () => {
-    if (!selectedDomain) return;
-    try {
-      const res = await fetch('/api/purchase', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ basedomainId: selectedDomain.id, price: selectedDomain.price }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setShowPurchaseModal(false);
-        setSelectedDomain(null);
-        alert('Domain purchased successfully!');
-        fetchDomains(); // Refresh domains
-      } else if (res.status === 409) {
-        alert('You have already claimed this domain.');
-      } else {
-        alert(data.error || 'Purchase failed');
-      }
-    } catch (error) {
-      console.error('Purchase error:', error);
-      alert('An error occurred during purchase.');
-    }
   };
 
   const getSortLabel = (option: SortOption) => {
@@ -334,81 +299,89 @@ const DomainMarketplace: React.FC = () => {
           </div>
         ) : (
           filteredDomains.map((domain) => {
-            const category = getCategory(domain.price);
             const tld = getTLD(domain.domainName);
             const isFree = parseFloat(domain.price) === 0;
             
             return (
               <div 
                 key={domain.id} 
-                className="group relative bg-white/90 dark:bg-black/90 backdrop-blur-xl rounded-xl border border-accent-light/10 dark:border-accent-dark/10 p-6 hover:border-accent-light/20 dark:hover:border-accent-dark/20 transition-all duration-300 cursor-pointer hover:scale-105"
+                className="group relative bg-white/80 dark:bg-black/80 backdrop-blur-md rounded-2xl border border-gray-200/50 dark:border-gray-700/50 p-5 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:shadow-xl overflow-hidden"
                 onClick={() => handleDomainClick(domain)}
               >
-                {/* Category Badge */}
-                <div className="absolute top-4 right-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium
-                    ${category === 'Premium' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-200' : 
-                      category === 'Featured' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200' :
-                      'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200'}`}>
-                    {category}
-                  </span>
+                {/* Subtle gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-transparent to-purple-50/30 dark:from-blue-900/20 dark:to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                {/* Header with domain name and price */}
+                <div className="relative z-10 flex items-start justify-between mb-4">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1 truncate">
+                      {domain.domainName}
+                    </h3>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">Available</span>
+                    </div>
+                  </div>
+                  <div className="text-right ml-4">
+                    <div className="flex items-center space-x-2">
+                      <div className="p-2 rounded-xl bg-gradient-to-br from-emerald-50 to-blue-50 dark:from-emerald-900/30 dark:to-blue-900/30">
+                        <DollarSign className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                      </div>
+                      <div>
+                        <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                          {isFree ? 'Free' : `$${domain.price}`}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          {isFree ? 'No cost' : 'One-time'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 
-                {/* Domain Name */}
-                <h3 className="text-lg font-semibold mb-2 pr-20">{domain.domainName}</h3>
-                
-                {/* Price */}
-                <div className="flex items-center space-x-2 mb-4">
-                  <DollarSign className="w-5 h-5 text-emerald-500" />
-                  <p className="text-2xl font-bold">
-                    {isFree ? 'Free' : `$${domain.price}`}
-                  </p>
+                {/* Platform info */}
+                <div className="relative z-10 mb-5">
+                  <div className="inline-flex items-center space-x-2 px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                    <Globe className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{domain.platform}</span>
+                  </div>
                 </div>
                 
-                {/* Platform */}
-                <div className="flex items-center space-x-2 mb-3">
-                  <Globe className="w-4 h-4 text-blue-500" />
-                  <p className="text-sm text-accent-light/60 dark:text-accent-dark/60">
-                    Platform: {domain.platform}
-                  </p>
-                </div>
-                
-                {/* Author */}
-                <div className="flex items-center space-x-2 mb-4">
-                  <User className="w-4 h-4 text-purple-500" />
-                  <p className="text-sm text-accent-light/60 dark:text-accent-dark/60">
-                    Listed by: {domain.authorName || 'Anonymous'}
-                  </p>
-                </div>
-                
-                {/* Listed Date */}
-                <p className="text-xs text-accent-light/40 dark:text-accent-dark/40 mb-4">
-                  Listed: {formatDate(domain.createdAt)}
-                </p>
-                
-                {/* Action Buttons */}
-                <div className="flex space-x-2">
-                  <button 
-                    onClick={(e) => handlePurchase(domain, e)}
-                    className="flex-1 py-2 px-3 bg-gradient-to-r from-emerald-500 to-blue-500 hover:from-emerald-600 hover:to-blue-600 text-white rounded-lg font-medium transition-all duration-300 flex items-center justify-center space-x-1"
-                  >
-                    <CheckCircle className="w-4 h-4" />
-                    <span>{isFree ? 'Get Free' : 'Buy Now'}</span>
-                  </button>
-                  <button 
-                    onClick={(e) => handleAddToCart(domain, e)}
-                    className="py-2 px-3 bg-accent-light/10 dark:bg-accent-dark/10 hover:bg-accent-light/20 dark:hover:bg-accent-dark/20 rounded-lg transition-colors"
-                    title="Add to Cart"
-                  >
-                    <ShoppingCart className="w-4 h-4" />
-                  </button>
-                  <button 
-                    onClick={(e) => handleAddToWishlist(domain, e)}
-                    className="py-2 px-3 bg-accent-light/10 dark:bg-accent-dark/10 hover:bg-accent-light/20 dark:hover:bg-accent-dark/20 rounded-lg transition-colors"
-                    title="Add to Wishlist"
-                  >
-                    <Heart className="w-4 h-4" />
-                  </button>
+                {/* Bottom section */}
+                <div className="relative z-10 space-y-4">
+                  {/* Date */}
+                  <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                    <span>Listed {formatDate(domain.createdAt)}</span>
+                    <div className="flex items-center space-x-1">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                      <span>Live</span>
+                    </div>
+                  </div>
+                  
+                  {/* Action buttons */}
+                  <div className="flex space-x-2">
+                    <button 
+                      onClick={(e) => handleDomainClick(domain)}
+                      className="flex-1 py-2.5 px-4 bg-gradient-to-r from-emerald-500 to-blue-500 hover:from-emerald-600 hover:to-blue-600 text-white rounded-xl font-medium transition-all duration-300 flex items-center justify-center space-x-2 shadow-sm hover:shadow-md"
+                    >
+                      <Eye className="w-4 h-4" />
+                      <span>View Details</span>
+                    </button>
+                    <button 
+                      onClick={(e) => handleAddToCart(domain, e)}
+                      className="py-2.5 px-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-all duration-300 group/cart"
+                      title="Add to Cart"
+                    >
+                      <ShoppingCart className="w-4 h-4 text-gray-600 dark:text-gray-400 group-hover/cart:scale-110 transition-transform duration-300" />
+                    </button>
+                    <button 
+                      onClick={(e) => handleAddToWishlist(domain, e)}
+                      className="py-2.5 px-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-all duration-300 group/wishlist"
+                      title="Add to Wishlist"
+                    >
+                      <Heart className="w-4 h-4 text-gray-600 dark:text-gray-400 group-hover/wishlist:scale-110 transition-transform duration-300" />
+                    </button>
+                  </div>
                 </div>
               </div>
             );
@@ -432,33 +405,6 @@ const DomainMarketplace: React.FC = () => {
             <button className="px-4 py-2 rounded-lg bg-accent-light/5 dark:bg-accent-dark/5 hover:bg-accent-light/10 dark:hover:bg-accent-dark/10">
               Next
             </button>
-          </div>
-        </div>
-      )}
-
-      {/* Purchase Modal */}
-      {showPurchaseModal && selectedDomain && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowPurchaseModal(false)} />
-          <div className="relative bg-white/95 dark:bg-black/95 rounded-xl p-6 max-w-md w-full backdrop-blur-xl border border-accent-light/10 dark:border-accent-dark/10">
-            <h3 className="text-xl font-bold mb-4">Confirm Purchase</h3>
-            <p className="text-accent-light/60 dark:text-accent-dark/60 mb-4">
-              Are you sure you want to purchase <span className="font-semibold text-emerald-500">{selectedDomain.domainName}</span> for <span className="font-semibold text-emerald-500">${selectedDomain.price}</span>?
-            </p>
-            <div className="flex space-x-3">
-              <button 
-                onClick={() => setShowPurchaseModal(false)}
-                className="flex-1 py-2 px-4 bg-accent-light/10 dark:bg-accent-dark/10 rounded-lg hover:bg-accent-light/20 dark:hover:bg-accent-dark/20 transition-colors"
-              >
-                Cancel
-              </button>
-              <button 
-                onClick={confirmPurchase}
-                className="flex-1 py-2 px-4 bg-gradient-to-r from-emerald-500 to-blue-500 hover:from-emerald-600 hover:to-blue-600 text-white rounded-lg font-medium transition-all duration-300"
-              >
-                Confirm Purchase
-              </button>
-            </div>
           </div>
         </div>
       )}

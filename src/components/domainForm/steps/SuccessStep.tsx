@@ -6,6 +6,7 @@ import { CheckCircle, Sparkles } from 'lucide-react';
 import { FormData } from '../DomainFormModel';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 interface SuccessStepProps {
   formData: FormData;
@@ -15,71 +16,72 @@ interface SuccessStepProps {
 const SuccessStep: React.FC<SuccessStepProps> = ({ formData, onClose }) => {
   const { data: session, status } = useSession();
   const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
- useEffect(() => {
-  console.log('✅ [useEffect] Triggered');
-  console.log('Session status:', status);
-  console.log('Session data:', session);
-  console.log('Form data:', formData);
-  console.log('Submitted state:', submitted);
+  useEffect(() => {
+    console.log('SuccessStep useEffect triggered');
+    console.log('Session status:', status);
+    console.log('Session data:', session);
+    console.log('Form data:', formData);
+    console.log('Submitted state:', submitted);
 
-  const submitData = async () => {
-    console.log('🚀 [submitData] Running API call logic');
-
-    if (status === 'unauthenticated') {
-      console.log('❌ [submitData] User is unauthenticated');
-      setError("Please log in to submit your domain");
-      setLoading(false);
-      return;
-    }
-
-    if (status === 'loading') {
-      console.log('⏳ [submitData] Session is still loading. Aborting submit.');
-      return;
-    }
-
-    setSubmitted(true);
-    console.log('📦 [submitData] Marked as submitted');
-
-    try {
-      console.log('📤 [submitData] Sending POST to /api/domain...');
-      const response = await axios.post("/api/domain", formData, {
-        withCredentials: true,
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      console.log('✅ [submitData] Response:', response);
-      if (response.status === 200) {
-        setLoading(false);
-        console.log('🎉 [submitData] Submission successful!');
-      }
-    } catch (error: any) {
-      console.error("❌ [submitData] Error submitting the form:", error);
-      if (error.response?.status === 401) {
+    const submitData = async () => {
+      console.log('submitData function called');
+      
+      if (status === 'unauthenticated') {
+        console.log('User is not authenticated');
         setError("Please log in to submit your domain");
-      } else {
-        setError(error.response?.data?.error || "Failed to submit domain. Please try again.");
+        setLoading(false);
+        return;
       }
-      setLoading(false);
+
+      if (status === 'loading') {
+        console.log('Session is still loading');
+        return;
+      }
+
+      try {
+        console.log('Attempting to submit domain data...');
+        const response = await axios.post("/api/domain", formData, {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+        
+        console.log('API Response:', response);
+        
+        if (response.status === 200) {
+          console.log('Domain submitted successfully');
+          setSubmitted(true);
+          setLoading(false);
+        }
+      } catch (error: any) {
+        console.error("Error submitting the form:", error);
+        console.log('Error response:', error.response);
+        if (error.response?.status === 401) {
+          setError("Please log in to submit your domain");
+        } else {
+          setError(error.response?.data?.error || "Failed to submit domain. Please try again.");
+        }
+        setLoading(false);
+      }
+    };
+
+    if (!submitted && status === 'authenticated') {
+      console.log('Conditions met for submission');
+      submitData();
     }
-  };
-
-  if (!submitted && status === 'authenticated') {
-    console.log('✅ [useEffect] Conditions met, calling submitData()');
-    submitData();
-  } else {
-    console.log('🚫 [useEffect] Skipped submitData due to conditions not met');
-  }
-}, [formData, submitted, status, session]);
-
+  }, [formData, submitted, status, session]);
 
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center space-y-4">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500"></div>
-        <p className="text-sm text-gray-600 dark:text-gray-400">Submitting your domain...</p>
+        <LoadingSpinner size="lg" />
+        <p className="text-sm text-accent-light/60 dark:text-accent-dark/60">
+          {status === 'loading' ? 'Loading session...' : 'Submitting your domain...'}
+        </p>
       </div>
     );
   }
@@ -90,7 +92,7 @@ const SuccessStep: React.FC<SuccessStepProps> = ({ formData, onClose }) => {
         <div className="text-red-500 mb-4">{error}</div>
         <button
           onClick={() => {
-            setError('');
+            setError("");
             setLoading(true);
             setSubmitted(false);
           }}
@@ -117,33 +119,34 @@ const SuccessStep: React.FC<SuccessStepProps> = ({ formData, onClose }) => {
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500/20 to-green-500/20 mb-6">
           <CheckCircle className="w-12 h-12 text-emerald-600 dark:text-emerald-400" />
         </div>
-
+        
+        {/* Sparkle animations */}
         <motion.div
           className="absolute -top-2 -right-2"
-          animate={{
+          animate={{ 
             rotate: [0, 360],
-            scale: [1, 1.2, 1],
+            scale: [1, 1.2, 1]
           }}
-          transition={{
+          transition={{ 
             duration: 2,
             repeat: Infinity,
-            ease: 'easeInOut',
+            ease: "easeInOut"
           }}
         >
           <Sparkles className="w-6 h-6 text-yellow-500" />
         </motion.div>
-
+        
         <motion.div
           className="absolute -bottom-2 -left-2"
-          animate={{
+          animate={{ 
             rotate: [360, 0],
-            scale: [1, 1.3, 1],
+            scale: [1, 1.3, 1]
           }}
-          transition={{
+          transition={{ 
             duration: 2.5,
             repeat: Infinity,
-            ease: 'easeInOut',
-            delay: 0.5,
+            ease: "easeInOut",
+            delay: 0.5
           }}
         >
           <Sparkles className="w-5 h-5 text-blue-500" />

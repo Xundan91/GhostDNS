@@ -23,7 +23,6 @@ const DomainDetail: React.FC<DomainDetailProps> = ({ domainId }) => {
   const [domain, setDomain] = useState<Domain | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
   useEffect(() => {
     fetchDomainDetails();
@@ -45,26 +44,19 @@ const DomainDetail: React.FC<DomainDetailProps> = ({ domainId }) => {
     }
   };
 
-  const handlePurchase = () => {
-    setShowPurchaseModal(true);
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
   };
 
-  const confirmPurchase = async () => {
-    if (!domain) return;
-    
-    try {
-      // TODO: Implement actual purchase logic
-      console.log('Purchasing domain:', domain.domainName);
-      
-      // Simulate purchase success
-      setTimeout(() => {
-        setShowPurchaseModal(false);
-        alert('Domain purchased successfully!');
-        router.push('/dashboard/purchased-domains');
-      }, 1000);
-    } catch (error) {
-      console.error('Purchase error:', error);
-    }
+  const getCategory = (price: string) => {
+    const numPrice = parseFloat(price);
+    if (numPrice >= 200) return 'Premium';
+    if (numPrice >= 100) return 'Featured';
+    return 'Standard';
   };
 
   const handleAddToCart = () => {
@@ -77,19 +69,9 @@ const DomainDetail: React.FC<DomainDetailProps> = ({ domainId }) => {
     console.log('Adding to wishlist:', domain?.domainName);
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
-  const getCategory = (price: string) => {
-    const numPrice = parseFloat(price);
-    if (numPrice >= 200) return 'Premium';
-    if (numPrice >= 100) return 'Featured';
-    return 'Standard';
+  const handlePurchase = () => {
+    // TODO: Implement purchase functionality
+    console.log('Purchasing:', domain?.domainName);
   };
 
   if (loading) {
@@ -299,33 +281,6 @@ const DomainDetail: React.FC<DomainDetailProps> = ({ domainId }) => {
           </div>
         </div>
       </div>
-
-      {/* Purchase Modal */}
-      {showPurchaseModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowPurchaseModal(false)} />
-          <div className="relative bg-white/95 dark:bg-black/95 rounded-xl p-6 max-w-md w-full backdrop-blur-xl border border-accent-light/10 dark:border-accent-dark/10">
-            <h3 className="text-xl font-bold mb-4">Confirm Purchase</h3>
-            <p className="text-accent-light/60 dark:text-accent-dark/60 mb-4">
-              Are you sure you want to purchase <span className="font-semibold text-emerald-500">{domain.domainName}</span> for <span className="font-semibold text-emerald-500">{isFree ? 'Free' : `$${domain.price}`}</span>?
-            </p>
-            <div className="flex space-x-3">
-              <button 
-                onClick={() => setShowPurchaseModal(false)}
-                className="flex-1 py-2 px-4 bg-accent-light/10 dark:bg-accent-dark/10 rounded-lg hover:bg-accent-light/20 dark:hover:bg-accent-dark/20 transition-colors"
-              >
-                Cancel
-              </button>
-              <button 
-                onClick={confirmPurchase}
-                className="flex-1 py-2 px-4 bg-gradient-to-r from-emerald-500 to-blue-500 hover:from-emerald-600 hover:to-blue-600 text-white rounded-lg font-medium transition-all duration-300"
-              >
-                Confirm Purchase
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

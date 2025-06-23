@@ -9,7 +9,7 @@ export const subdomainclaim = pgTable("subdomain_claims",{
     subdomain : text("subdomain").notNull(),
     fulldomain : text("fulldomain").notNull().unique(),
 
-
+    
     userId : text("user_id").notNull().references(()=>(users.id)),
     basedomainId : text("base_domain_id").notNull().references(()=>(basedomain.id)),
 

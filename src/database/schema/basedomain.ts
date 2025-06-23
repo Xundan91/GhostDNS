@@ -10,7 +10,6 @@ export const basedomain = pgTable("basedomain",{
     ownerId : text("owner_id").notNull().references(()=>users.id,{
         onDelete:"cascade"
     }),
-
     createdAt : timestamp("created_at", {withTimezone:true}).defaultNow(),
     updatedAt : timestamp("updated_At", {withTimezone:true}).defaultNow()
     

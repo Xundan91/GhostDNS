@@ -1,5 +1,5 @@
 {
-  "id": "3df6a2b7-58b0-40ad-aa81-831c55ebba6e",
+  "id": "02b2ea9d-e6f8-495b-b15f-19968d77980a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -168,12 +168,6 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "subdomain_claim_id": {
-          "name": "subdomain_claim_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
         "buyer_id": {
           "name": "buyer_id",
           "type": "text",
@@ -215,19 +209,6 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "purchase_subdomain_claim_id_subdomain_claims_id_fk": {
-          "name": "purchase_subdomain_claim_id_subdomain_claims_id_fk",
-          "tableFrom": "purchase",
-          "tableTo": "subdomain_claims",
-          "columnsFrom": [
-            "subdomain_claim_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
         "purchase_buyer_id_users_id_fk": {
           "name": "purchase_buyer_id_users_id_fk",
           "tableFrom": "purchase",
@@ -243,15 +224,7 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "purchase_subdomain_claim_id_unique": {
-          "name": "purchase_subdomain_claim_id_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "subdomain_claim_id"
-          ]
-        }
-      },
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
