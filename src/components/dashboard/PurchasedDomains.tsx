@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Package } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface PurchasedDomain {
   purchaseId: string;
@@ -21,6 +22,7 @@ const PurchasedDomains: React.FC = () => {
   const [purchases, setPurchases] = useState<PurchasedDomain[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     fetchPurchases();
@@ -146,6 +148,12 @@ const PurchasedDomains: React.FC = () => {
               <p className="text-2xl font-bold mb-2">${purchase.price}</p>
               <p className="text-xs text-accent-light/40 dark:text-accent-dark/40 mb-2">Status: {purchase.status}</p>
               <p className="text-xs text-accent-light/40 dark:text-accent-dark/40">DNS Status: {purchase.dnsStatus}</p>
+              <button
+                className="mt-4 w-full py-2 px-4 bg-gradient-to-r from-blue-500 to-emerald-500 hover:from-blue-600 hover:to-emerald-600 text-white rounded-lg font-medium transition-all duration-300"
+                onClick={() => router.push(`/dashboard/domain/${purchase.basedomainId}/configuration`)}
+              >
+                Configuration
+              </button>
             </div>
           ))
         )}

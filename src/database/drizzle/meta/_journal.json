@@ -8,6 +8,27 @@
       "when": 1750666512210,
       "tag": "0000_square_blizzard",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1750705582703,
+      "tag": "0001_ambitious_the_leader",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1750741513519,
+      "tag": "0002_handy_ultimo",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1750754268824,
+      "tag": "0003_low_loners",
+      "breakpoints": true
     }
   ]
 }

@@ -11,5 +11,5 @@ export const domainIntegration = pgTable("domainIntegration",{
     providerApiKey :text("provider_api_key"),
 
     createdAt : timestamp("createdAt", {withTimezone:true}).defaultNow()
-
+ 
 }) 

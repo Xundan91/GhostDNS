@@ -1,0 +1,1 @@
+ALTER TABLE "configuredomain" ALTER COLUMN "cname" SET NOT NULL;
