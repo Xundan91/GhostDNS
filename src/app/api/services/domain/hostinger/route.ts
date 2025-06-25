@@ -1,23 +1,53 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
+import axios from "axios";
 
-export async function POST(req: Request) {
+export async function POST(req:NextRequest) {
   try {
-    const { apiKey } = await req.json();
-    if (!apiKey) {
-      return NextResponse.json({ error: 'Missing Vercel API key' }, { status: 400 });
+    const {subdomain , target , domain , apikey} = await req.json();
+    if(!subdomain || !target || !domain || !apikey){
+      return NextResponse.json({message:"Missing required paramerters"}, {status:400})
     }
-    const res = await fetch('https://api.vercel.com/v9/projects', {
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-      },
-    });
-    if (!res.ok) {
-      const error = await res.json();
-      return NextResponse.json({ error: error.error?.message || 'Failed to fetch projects from Vercel' }, { status: res.status });
+    const response = await axios.put(`https://developers.hostinger.com/api/dns/v1/zones/${domain}`,
+      {
+        overwrite : true,
+        zone : [
+          {
+            type : 'CNAME',
+            name : subdomain,
+            ttl :3600,
+            records : [
+             { content : target.endsWith('.')? target : target+ '.',
+              is_disabled : false,
+             }
+            ]
+          }
+        ]
+      }  ,
+      {
+        headers: {
+          Authorization : `bearer ${apikey}`,
+          'content-Type': 'application/json',
+
+        }
+      }
+    
+    );
+    return NextResponse.json({
+      message : 'cname record added successfully',
+      data : response.data
+    })
+  } catch (error:any) {
+    console.error('error adding Cname record ', error.response?.data || error.message)
+    return NextResponse.json({
+      "messsage" : "Internal server error",
+      error : error.response?.data || error.message,
+
+
+    },{
+      status : 500
     }
-    const data = await res.json();
-    return NextResponse.json({ projects: data.projects || [] });
-  } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  )
+    
   }
-} 
+  
+}

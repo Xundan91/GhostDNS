@@ -6,6 +6,8 @@ export async function POST(req: Request) {
     if (!apiKey) {
       return NextResponse.json({ error: 'Missing Vercel API key' }, { status: 400 });
     }
+
+    
     const res = await fetch('https://api.vercel.com/v9/projects', {
       headers: {
         Authorization: `Bearer ${apiKey}`,
