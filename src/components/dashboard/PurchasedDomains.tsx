@@ -22,11 +22,34 @@ const PurchasedDomains: React.FC = () => {
   const [purchases, setPurchases] = useState<PurchasedDomain[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [configuredMap, setConfiguredMap] = useState<{ [purchaseId: string]: boolean }>({});
   const router = useRouter();
 
   useEffect(() => {
     fetchPurchases();
   }, []);
+
+  useEffect(() => {
+    // After purchases are loaded, check config status for each
+    if (purchases.length > 0) {
+      const checkConfigs = async () => {
+        const map: { [purchaseId: string]: boolean } = {};
+        await Promise.all(
+          purchases.map(async (purchase) => {
+            try {
+              const res = await fetch(`/api/configuredomain?purchasedomain=${purchase.purchaseId}`);
+              const data = await res.json();
+              map[purchase.purchaseId] = !!data.configuredomain;
+            } catch {
+              map[purchase.purchaseId] = false;
+            }
+          })
+        );
+        setConfiguredMap(map);
+      };
+      checkConfigs();
+    }
+  }, [purchases]);
 
   const fetchPurchases = async () => {
     try {
@@ -149,10 +172,12 @@ const PurchasedDomains: React.FC = () => {
               <p className="text-xs text-accent-light/40 dark:text-accent-dark/40 mb-2">Status: {purchase.status}</p>
               <p className="text-xs text-accent-light/40 dark:text-accent-dark/40">DNS Status: {purchase.dnsStatus}</p>
               <button
-                className="mt-4 w-full py-2 px-4 bg-gradient-to-r from-blue-500 to-emerald-500 hover:from-blue-600 hover:to-emerald-600 text-white rounded-lg font-medium transition-all duration-300"
+                className={`mt-4 w-full py-2 px-4 ${configuredMap[purchase.purchaseId]
+                  ? 'bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600'
+                  : 'bg-gradient-to-r from-blue-500 to-emerald-500 hover:from-blue-600 hover:to-emerald-600'} text-white rounded-lg font-medium transition-all duration-300`}
                 onClick={() => router.push(`/dashboard/domain/${purchase.basedomainId}/configuration`)}
               >
-                Configuration
+                {configuredMap[purchase.purchaseId] ? 'Edit Configuration' : 'Configure Domain'}
               </button>
             </div>
           ))

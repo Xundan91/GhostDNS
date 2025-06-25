@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { CheckCircle, Loader2, ArrowLeft } from 'lucide-react';
+import { CheckCircle, Loader2, ArrowLeft, Server, Key, Globe, Settings, Check } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const HOW_TO_FIND_VERCEL = `Go to your Vercel dashboard > Settings > Tokens > Create or copy your API token.`;
 const HOW_TO_FIND_NETLIFY = `Go to your Netlify dashboard > User Settings > Applications > Personal access tokens.`;
@@ -15,6 +16,33 @@ function getVercelDeployedUrl(project: any) {
   // Fallback: use project name as subdomain
   return `https://${project.name}.vercel.app`;
 }
+
+const StepIndicator = ({ currentStep }: { currentStep: number }) => (
+  <div className="flex items-center justify-center mb-12">
+    {[1, 2, 3, 4, 5, 6].map((s, i) => (
+      <React.Fragment key={s}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className={`flex items-center ${currentStep >= s ? 'text-blue-600 dark:text-blue-400' : 'text-gray-300'}`}
+        >
+          <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 border-current font-bold transition-all duration-300
+            ${currentStep === s ? 'bg-blue-100 dark:bg-blue-900/30 scale-110' : 
+              currentStep > s ? 'bg-blue-500 dark:bg-blue-400 border-none' : ''}`}>
+            {currentStep > s ? <Check className="w-5 h-5 text-white" /> : s}
+          </div>
+          {i < 5 && (
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: '3rem' }}
+              className={`h-1 ${currentStep > s ? 'bg-blue-500 dark:bg-blue-400' : 'bg-gray-200 dark:bg-gray-700'} mx-1 rounded transition-colors duration-300`}
+            />
+          )}
+        </motion.div>
+      </React.Fragment>
+    ))}
+  </div>
+);
 
 export default function DomainConfigurationPage({ params }: { params: { id: string } }) {
   const [step, setStep] = useState(1);
@@ -33,6 +61,8 @@ export default function DomainConfigurationPage({ params }: { params: { id: stri
   const [basedomainId, setBasedomainId] = useState<string | null>(null);
   const [submitStatus, setSubmitStatus] = useState<'idle'|'success'|'error'|'loading'>('idle');
   const [submitMsg, setSubmitMsg] = useState('');
+  const [existingConfig, setExistingConfig] = useState<any>(null);
+  const [configLoading, setConfigLoading] = useState(true);
 
   // Simulate purchased domain (in real app, fetch actual domain)
   const purchasedDomain = `your-purchased-domain.com`;
@@ -44,14 +74,18 @@ export default function DomainConfigurationPage({ params }: { params: { id: stri
         const res = await fetch('/api/purchase');
         const data = await res.json();
         if (res.ok && Array.isArray(data.purchases)) {
-          // Find the purchase for this domain
           const found = data.purchases.find((p: any) => p.domain?.id === params.id);
           if (found) {
             setPurchasedomainId(found.purchaseId);
             setBasedomainId(found.domain?.id);
+            // Fetch configuration for this purchasedomain
+            const configRes = await fetch(`/api/configuredomain?purchasedomain=${found.purchaseId}`);
+            const configData = await configRes.json();
+            setExistingConfig(configData.configuredomain);
           }
         }
       } catch {}
+      setConfigLoading(false);
     }
     fetchPurchaseInfo();
   }, [params.id]);
@@ -200,185 +234,340 @@ export default function DomainConfigurationPage({ params }: { params: { id: stri
   };
 
   return (
-    <div className="w-full min-h-screen bg-white dark:bg-black pt-10 px-4 md:px-12 lg:px-32">
-      <h1 className="text-3xl font-bold mb-8 text-center">Configure Domain</h1>
-      {/* Stepper Progress */}
-      <div className="flex items-center justify-center mb-12">
-        {[1,2,3,4,5,6].map((s, i) => (
-          <React.Fragment key={s}>
-            <div className={`flex items-center ${step >= s ? 'text-blue-600' : 'text-gray-300'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 border-current font-bold ${step === s ? 'bg-blue-100 dark:bg-blue-900/30' : ''}`}>{s}</div>
-              {i < 5 && <div className={`w-12 h-1 ${step > s ? 'bg-blue-600' : 'bg-gray-200'} mx-1 rounded`}></div>}
-            </div>
-          </React.Fragment>
-        ))}
-      </div>
-      {/* Step 1: Platform Selection */}
-      {step === 1 && (
-        <div className="max-w-lg mx-auto bg-white dark:bg-gray-900 rounded-xl shadow p-8">
-          <h2 className="text-xl font-bold mb-4">Step 1: Where is your deployed project?</h2>
-          <div className="flex flex-col md:flex-row gap-6">
-            <button
-              className={`flex-1 py-4 px-6 rounded-lg border-2 font-semibold text-lg transition-all duration-200 ${platform === 'vercel' ? 'border-blue-600 bg-blue-50 text-blue-700' : 'border-gray-300 hover:border-blue-400'}`}
-              onClick={() => handlePlatformSelect('vercel')}
-            >
-              Vercel
-            </button>
-            <button
-              className={`flex-1 py-4 px-6 rounded-lg border-2 font-semibold text-lg transition-all duration-200 ${platform === 'netlify' ? 'border-green-600 bg-green-50 text-green-700' : 'border-gray-300 hover:border-green-400'}`}
-              onClick={() => handlePlatformSelect('netlify')}
-            >
-              Netlify
-            </button>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white dark:from-gray-950 dark:to-black pt-10 px-4 md:px-12 lg:px-32">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center mb-8"
+      >
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          Configure Your Domain
+        </h1>
+        <p className="text-gray-600 dark:text-gray-400 mt-2">
+          Follow these steps to set up your domain with your preferred platform
+        </p>
+      </motion.div>
+
+      {/* If loading config, show spinner */}
+      {configLoading ? (
+        <div className="flex justify-center items-center min-h-[300px]">
+          <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
         </div>
-      )}
-      {/* Step 2: API Key Input */}
-      {step === 2 && (
-        <div className="max-w-lg mx-auto bg-white dark:bg-gray-900 rounded-xl shadow p-8">
-          <h2 className="text-xl font-bold mb-4">Step 2: Enter your {platform === 'vercel' ? 'Vercel' : 'Netlify'} API Key</h2>
-          <input
-            type="text"
-            value={apiKey}
-            onChange={e => setApiKey(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-accent-light/5 dark:bg-accent-dark/5 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:focus:ring-green-500/20 mb-3"
-            placeholder={platform === 'vercel' ? 'Vercel API Key' : 'Netlify API Key'}
-          />
-          {error && <div className="text-red-500 mb-2">{error}</div>}
-          <div className="mb-4 text-sm text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 rounded p-3">
-            {platform === 'vercel' ? HOW_TO_FIND_VERCEL : HOW_TO_FIND_NETLIFY}
+      ) : existingConfig ? (
+        <div className="max-w-2xl mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-800">
+          <div className="flex items-center mb-6">
+            <CheckCircle className="w-6 h-6 text-green-500 mr-3" />
+            <h2 className="text-2xl font-bold">Domain Already Configured</h2>
           </div>
-          <div className="flex items-center gap-4">
-            <button
-              className="py-2 px-6 rounded-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all duration-200"
-              onClick={handleApiKeyNext}
-              disabled={loadingProjects}
-            >
-              {loadingProjects ? <Loader2 className="animate-spin w-5 h-5" /> : 'Next'}
-            </button>
-            <button
-              type="button"
-              className="py-2 px-6 rounded-lg font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 transition-all duration-200"
-              onClick={handleBack}
-            >
-              <ArrowLeft className="inline w-4 h-4 mr-1" /> Back
-            </button>
-          </div>
-          {fetchProjectsError && <div className="text-red-500 mt-2">{fetchProjectsError}</div>}
-        </div>
-      )}
-      {/* Step 3: Show Vercel Projects */}
-      {step === 3 && platform === 'vercel' && (
-        <div className="max-w-2xl mx-auto bg-white dark:bg-gray-900 rounded-xl shadow p-8">
-          <h2 className="text-xl font-bold mb-4">Step 3: Select a Vercel Project</h2>
-          {projects.length === 0 ? (
-            <div className="text-gray-500">No projects found for this API key.</div>
-          ) : (
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {projects.map((project: any) => (
-                <li key={project.id} className="p-5 border rounded-lg bg-gray-50 dark:bg-gray-900 flex flex-col gap-2">
-                  <span className="font-semibold text-lg">{project.name}</span>
-                  <span className="text-xs text-gray-500 break-all">ID: {project.id}</span>
-                  <span className="text-xs text-gray-500 break-all">Framework: {project.framework || 'Unknown'}</span>
-                  <button className="mt-2 py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 transition" onClick={() => handleSelectProject(project)}>Select</button>
-                </li>
-              ))}
-            </ul>
-          )}
-          <button
-            type="button"
-            className="mt-6 py-2 px-6 rounded-lg font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 transition-all duration-200"
-            onClick={handleBack}
-          >
-            <ArrowLeft className="inline w-4 h-4 mr-1" /> Back
-          </button>
-        </div>
-      )}
-      {/* Step 4: Show deployed link and ask for CNAME */}
-      {step === 4 && selectedProject && (
-        <div className="max-w-lg mx-auto bg-white dark:bg-gray-900 rounded-xl shadow p-8">
-          <h2 className="text-xl font-bold mb-4">Step 4: Project Deployment</h2>
-          <div className="mb-4">
-            <span className="block text-sm text-gray-600 mb-1">Deployed Link:</span>
-            <a
-              href={getVercelDeployedUrl(selectedProject)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 underline break-all"
-            >
-              {getVercelDeployedUrl(selectedProject)}
-            </a>
+          <div className="space-y-2 mb-6">
+            <div><span className="font-semibold">Platform:</span> {existingConfig.platform}</div>
+            <div><span className="font-semibold">Project Name:</span> {existingConfig.project_name}</div>
+            <div><span className="font-semibold">CNAME:</span> {existingConfig.cname}</div>
+            <div><span className="font-semibold">Deployed URL:</span> <a href={existingConfig.deployed_url} className="text-blue-600 underline" target="_blank" rel="noopener noreferrer">{existingConfig.deployed_url}</a></div>
+            <div><span className="font-semibold">Configured At:</span> {existingConfig.created_at ? new Date(existingConfig.created_at).toLocaleString() : ''}</div>
           </div>
           <button
-            className="mb-8 py-2 px-6 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-            onClick={() => setStep(5)}
+            className="px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg font-medium transition-all duration-200 hover:shadow-lg"
+            // onClick={handleEditConfig} // Implement edit logic if needed
           >
-            Next
-          </button>
-          <button
-            type="button"
-            className="py-2 px-6 rounded-lg font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 transition-all duration-200"
-            onClick={handleBack}
-          >
-            <ArrowLeft className="inline w-4 h-4 mr-1" /> Back
+            Edit Configuration
           </button>
         </div>
-      )}
-      {/* Step 5: Add CNAME */}
-      {step === 5 && selectedProject && (
-        <div className="max-w-lg mx-auto bg-white dark:bg-gray-900 rounded-xl shadow p-8">
-          <form onSubmit={handleCnameSubmit}>
-            <h3 className="text-xl font-bold mb-4">Step 5: Add CNAME for <span className="text-blue-600">{selectedProject?.name}</span></h3>
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-1">Enter CNAME</label>
-              <input
-                type="text"
-                value={cname}
-                onChange={e => setCname(e.target.value)}
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-accent-light/5 dark:bg-accent-dark/5 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                placeholder="e.g. cname.vercel-dns.com"
-              />
-              {cnameError && <div className="text-red-500 mt-1">{cnameError}</div>}
-            </div>
-            <div className="mb-6">
-              <span className="text-sm text-gray-600">Purchased Domain: <span className="font-semibold">{purchasedDomain}</span></span>
-            </div>
-            <div className="flex items-center gap-4">
-              <button type="submit" className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all duration-300">Next</button>
-              <button
-                type="button"
-                className="py-3 px-6 rounded-lg font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 transition-all duration-200"
-                onClick={handleBack}
-              >
-                <ArrowLeft className="inline w-4 h-4 mr-1" /> Back
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
-      {/* Step 6: Show build log/summary and final submit */}
-      {step === 6 && selectedProject && (
-        <div className="max-w-lg mx-auto bg-white dark:bg-gray-900 rounded-xl shadow p-8 text-center">
-          <div className="mt-8 bg-black text-green-400 font-mono text-sm rounded-lg p-6 overflow-x-auto shadow-lg border border-gray-800 w-full">
-            <pre>{buildLog}</pre>
-          </div>
-          <button
-            className="mt-6 w-full py-3 px-6 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-2"
-            onClick={handleFinalSubmit}
-            disabled={submitStatus === 'loading'}
-          >
-            {submitStatus === 'loading' ? <Loader2 className="animate-spin w-5 h-5" /> : <CheckCircle className="w-5 h-5" />} Submit
-          </button>
-          {submitStatus === 'success' && <div className="mt-4 text-green-600 text-center font-bold text-lg">🎉 {submitMsg}</div>}
-          {submitStatus === 'error' && <div className="mt-4 text-red-600 text-center font-bold text-lg">{submitMsg}</div>}
-          <button
-            type="button"
-            className="mt-4 py-2 px-6 rounded-lg font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 transition-all duration-200"
-            onClick={handleBack}
-          >
-            <ArrowLeft className="inline w-4 h-4 mr-1" /> Back
-          </button>
-        </div>
+      ) : (
+        <>
+          <StepIndicator currentStep={step} />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={step}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+              className="max-w-3xl mx-auto"
+            >
+              {/* Step 1: Platform Selection */}
+              {step === 1 && (
+                <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8 backdrop-blur-xl border border-gray-200 dark:border-gray-800">
+                  <div className="flex items-center mb-6">
+                    <Server className="w-6 h-6 text-blue-500 mr-3" />
+                    <h2 className="text-2xl font-bold">Choose Your Platform</h2>
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <button
+                      onClick={() => handlePlatformSelect('vercel')}
+                      className={`group relative overflow-hidden rounded-xl p-6 border-2 transition-all duration-300
+                        ${platform === 'vercel'
+                          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                          : 'border-gray-200 dark:border-gray-800 hover:border-blue-400 dark:hover:border-blue-500'
+                        }`}
+                    >
+                      <div className="relative z-10">
+                        <h3 className="text-xl font-semibold mb-2">Vercel</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          Deploy with Vercel for optimal performance and reliability
+                        </p>
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </button>
+                    <button
+                      onClick={() => handlePlatformSelect('netlify')}
+                      className={`group relative overflow-hidden rounded-xl p-6 border-2 transition-all duration-300
+                        ${platform === 'netlify'
+                          ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
+                          : 'border-gray-200 dark:border-gray-800 hover:border-green-400 dark:hover:border-green-500'
+                        }`}
+                    >
+                      <div className="relative z-10">
+                        <h3 className="text-xl font-semibold mb-2">Netlify</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          Choose Netlify for simplified deployments and great features
+                        </p>
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 2: API Key Input */}
+              {step === 2 && (
+                <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8 backdrop-blur-xl border border-gray-200 dark:border-gray-800">
+                  <div className="flex items-center mb-6">
+                    <Key className="w-6 h-6 text-blue-500 mr-3" />
+                    <h2 className="text-2xl font-bold">Enter API Key</h2>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={apiKey}
+                        onChange={e => setApiKey(e.target.value)}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
+                        placeholder={`Enter your ${platform === 'vercel' ? 'Vercel' : 'Netlify'} API key`}
+                      />
+                      {error && (
+                        <motion.p
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="text-red-500 text-sm mt-2"
+                        >
+                          {error}
+                        </motion.p>
+                      )}
+                    </div>
+                    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 text-sm text-gray-600 dark:text-gray-300 border border-blue-100 dark:border-blue-800">
+                      <p className="font-medium mb-2">How to find your API key:</p>
+                      <p>{platform === 'vercel' ? HOW_TO_FIND_VERCEL : HOW_TO_FIND_NETLIFY}</p>
+                    </div>
+                    <div className="flex justify-between pt-4">
+                      <button
+                        onClick={handleBack}
+                        className="flex items-center px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                      >
+                        <ArrowLeft className="w-4 h-4 mr-2" />
+                        Back
+                      </button>
+                      <button
+                        onClick={handleApiKeyNext}
+                        className="px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg font-medium transition-all duration-200 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={!apiKey.trim()}
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 3: Project Selection */}
+              {step === 3 && (
+                <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8 backdrop-blur-xl border border-gray-200 dark:border-gray-800">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center">
+                      <Globe className="w-6 h-6 text-blue-500 mr-3" />
+                      <h2 className="text-2xl font-bold">Select Project</h2>
+                    </div>
+                    {loadingProjects && <Loader2 className="w-5 h-5 animate-spin text-blue-500" />}
+                  </div>
+                  
+                  {fetchProjectsError ? (
+                    <div className="text-center py-8">
+                      <p className="text-red-500 mb-4">{fetchProjectsError}</p>
+                      <button
+                        onClick={handleApiKeyNext}
+                        className="px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors"
+                      >
+                        Try Again
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="grid gap-4">
+                      {projects.map((project: any) => (
+                        <motion.button
+                          key={project.id}
+                          onClick={() => handleSelectProject(project)}
+                          className={`group relative overflow-hidden rounded-xl p-6 border-2 text-left transition-all duration-300
+                            ${selectedProject?.id === project.id
+                              ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                              : 'border-gray-200 dark:border-gray-800 hover:border-blue-400'
+                            }`}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <h3 className="text-lg font-semibold mb-1">{project.name}</h3>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{getVercelDeployedUrl(project)}</p>
+                          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        </motion.button>
+                      ))}
+                    </div>
+                  )}
+                  
+                  <div className="flex justify-between mt-6">
+                    <button
+                      onClick={handleBack}
+                      className="flex items-center px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      Back
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 4: CNAME Configuration */}
+              {step === 4 && (
+                <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8 backdrop-blur-xl border border-gray-200 dark:border-gray-800">
+                  <div className="flex items-center mb-6">
+                    <Settings className="w-6 h-6 text-blue-500 mr-3" />
+                    <h2 className="text-2xl font-bold">Configure CNAME</h2>
+                  </div>
+                  
+                  <form onSubmit={handleCnameSubmit} className="space-y-6">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">CNAME Record</label>
+                      <input
+                        type="text"
+                        value={cname}
+                        onChange={e => setCname(e.target.value)}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
+                        placeholder="Enter CNAME record"
+                      />
+                      {cnameError && (
+                        <motion.p
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="text-red-500 text-sm mt-2"
+                        >
+                          {cnameError}
+                        </motion.p>
+                      )}
+                    </div>
+
+                    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 text-sm">
+                      <h4 className="font-medium mb-2">Selected Project Details:</h4>
+                      <p className="text-gray-600 dark:text-gray-300">Name: {selectedProject?.name}</p>
+                      <p className="text-gray-600 dark:text-gray-300">URL: {getVercelDeployedUrl(selectedProject)}</p>
+                    </div>
+
+                    <div className="flex justify-between pt-4">
+                      <button
+                        type="button"
+                        onClick={handleBack}
+                        className="flex items-center px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                      >
+                        <ArrowLeft className="w-4 h-4 mr-2" />
+                        Back
+                      </button>
+                      <button
+                        type="submit"
+                        className="px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg font-medium transition-all duration-200 hover:shadow-lg"
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
+              {/* Step 5: Final Configuration */}
+              {step === 6 && (
+                <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8 backdrop-blur-xl border border-gray-200 dark:border-gray-800">
+                  <div className="flex items-center mb-6">
+                    <CheckCircle className="w-6 h-6 text-green-500 mr-3" />
+                    <h2 className="text-2xl font-bold">Finalize Configuration</h2>
+                  </div>
+
+                  {showSummary ? (
+                    <div className="space-y-6">
+                      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 font-mono text-sm whitespace-pre-wrap">
+                        {buildLog}
+                      </div>
+                      
+                      {submitStatus === 'success' && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 p-4 rounded-lg border border-green-200 dark:border-green-800"
+                        >
+                          <p className="flex items-center">
+                            <CheckCircle className="w-5 h-5 mr-2" />
+                            {submitMsg}
+                          </p>
+                        </motion.div>
+                      )}
+
+                      {submitStatus === 'error' && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 p-4 rounded-lg border border-red-200 dark:border-red-800"
+                        >
+                          <p>{submitMsg}</p>
+                        </motion.div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="space-y-6">
+                      <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                        <h3 className="font-medium mb-2">Configuration Summary</h3>
+                        <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+                          <li>Platform: {platform}</li>
+                          <li>Project: {selectedProject?.name}</li>
+                          <li>CNAME: {cname}</li>
+                          <li>Domain: {purchasedDomain}</li>
+                        </ul>
+                      </div>
+
+                      <div className="flex justify-between">
+                        <button
+                          onClick={handleBack}
+                          className="flex items-center px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                        >
+                          <ArrowLeft className="w-4 h-4 mr-2" />
+                          Back
+                        </button>
+                        <button
+                          onClick={handleFinalSubmit}
+                          disabled={submitStatus === 'loading'}
+                          className="px-6 py-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-lg font-medium transition-all duration-200 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                        >
+                          {submitStatus === 'loading' ? (
+                            <>
+                              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                              Configuring...
+                            </>
+                          ) : (
+                            'Configure Domain'
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </>
       )}
     </div>
   );
