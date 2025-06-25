@@ -12,6 +12,7 @@
     "@headlessui/react": "^1.7.18",
     "@types/axios": "^0.9.36",
     "@types/bcrypt": "^5.0.2",
+    "@vercel/sdk": "^1.8.6",
     "axios": "^1.10.0",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
