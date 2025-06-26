@@ -10,7 +10,7 @@ export const configuredomain = pgTable('configuredomain', {
   purchase_domain: text('purchase_domain').notNull().references(() => purchase.id),
   domain_id: varchar('domain_id', { length: 64 }).notNull(),
   platform: varchar('platform', { length: 32 }).notNull(),
-  api_key: varchar('api_key', { length: 256 }),
+  vercelapikey: varchar('api_key', { length: 256 }),
   project_id: varchar('project_id', { length: 128 }),
   project_name: varchar('project_name', { length: 256 }),
   deployed_url: varchar('deployed_url', { length: 512 }),
