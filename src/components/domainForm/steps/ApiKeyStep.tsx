@@ -98,9 +98,7 @@ const ApiKeyStep: React.FC<ApiKeyStepProps> = ({
               value={apiKey}
               onChange={(e) => handleInputChange(e.target.value)}
               placeholder="sk-1234567890abcdef..."
-              className={`w-full px-4 py-3 pr-12 rounded-lg bg-black/5 dark:bg-white/5 border ${
-                error ? 'border-red-500' : 'border-white/10 dark:border-white/5'
-              } focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all duration-200 font-mono text-sm`}
+              className={`w-full px-4 py-3 border border-accent-light/20 dark:border-accent-dark/20 rounded-xl bg-accent-light/5 dark:bg-accent-dark/5 text-accent-light dark:text-accent-dark placeholder-accent-light/40 dark:placeholder-accent-dark/40 focus:outline-none focus:ring-2 focus:ring-accent-light/20 dark:focus:ring-accent-dark/20 transition-all duration-200 font-mono text-sm`}
             />
             <button
               type="button"
@@ -146,7 +144,7 @@ const ApiKeyStep: React.FC<ApiKeyStepProps> = ({
           <motion.button
             onClick={handleNext}
             disabled={!apiKey.trim()}
-            className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-blue-500 hover:from-emerald-600 hover:to-blue-600 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-lg font-semibold transition-all duration-300 disabled:cursor-not-allowed"
+            className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-accent-light dark:bg-accent-dark text-primary-light dark:text-primary-dark hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-semibold transition-all duration-300"
             whileHover={{ scale: apiKey.trim() ? 1.02 : 1 }}
             whileTap={{ scale: apiKey.trim() ? 0.98 : 1 }}
           >

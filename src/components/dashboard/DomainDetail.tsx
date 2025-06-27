@@ -169,7 +169,7 @@ const DomainDetail: React.FC<DomainDetailProps> = ({ domainId }) => {
               </div>
               <div className="text-right">
                 <div className="flex items-center space-x-2 mb-2">
-                  <DollarSign className="w-6 h-6 text-emerald-500" />
+                  <DollarSign className="w-6 h-6 text-accent-light dark:text-accent-dark" />
                   <p className="text-3xl font-bold">
                     {isFree ? 'Free' : `$${domain.price}`}
                   </p>
@@ -197,7 +197,7 @@ const DomainDetail: React.FC<DomainDetailProps> = ({ domainId }) => {
                 </div>
               </div>
               <div className="flex items-center space-x-3 p-3 rounded-lg bg-accent-light/5 dark:bg-accent-dark/5">
-                <Calendar className="w-5 h-5 text-green-500" />
+                <Calendar className="w-5 h-5 text-accent-light dark:text-accent-dark" />
                 <div>
                   <p className="font-medium">Listed on</p>
                   <p className="text-sm text-accent-light/60 dark:text-accent-dark/60">{formatDate(domain.createdAt)}</p>
@@ -216,7 +216,7 @@ const DomainDetail: React.FC<DomainDetailProps> = ({ domainId }) => {
             <div className="flex space-x-3">
               <button 
                 onClick={handlePurchase}
-                className="flex-1 py-3 px-6 bg-gradient-to-r from-emerald-500 to-blue-500 hover:from-emerald-600 hover:to-blue-600 text-white rounded-lg font-medium transition-all duration-300 flex items-center justify-center space-x-2"
+                className="flex-1 py-3 px-6 bg-accent-light dark:bg-accent-dark text-primary-light dark:text-primary-dark hover:opacity-90 rounded-lg font-medium transition-all duration-300 flex items-center justify-center space-x-2"
               >
                 <CheckCircle className="w-5 h-5" />
                 <span>{isFree ? 'Get Free Domain' : 'Buy Now'}</span>

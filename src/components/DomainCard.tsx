@@ -25,14 +25,14 @@ const DomainCard: React.FC = () => {
           </div>
 
           <div className="relative">
-            <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-red-400"></div>
+            <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-gray-500"></div>
             <div className="font-mono text-sm text-black/40 dark:text-white/40 line-through px-4 py-3">
               {projectName || 'awesome-project'}.vercel.app
             </div>
           </div>
 
           <div className="relative">
-            <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-emerald-400"></div>
+            <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-gray-500"></div>
             <div className="bg-white/5 dark:bg-black/20 rounded-lg px-4 py-3 font-mono text-sm text-black dark:text-white border border-white/10">
               {projectName || 'awesome-project'}.build.dev
             </div>

@@ -1,8 +1,7 @@
 import { purchase } from '@/database/schema/purchase';
 import { basedomain } from '@/database/schema/basedomain';
 import { subdomainclaim } from '@/database/schema/subdomainclaim';
-
-// TypeScript types for purchase operations
+import {eq} from "drizzle-orm"
 export interface CreatePurchaseData {
   buyerID: string;
   price: number;
@@ -35,12 +34,10 @@ export interface DomainPurchaseRequest {
   domainData: PurchaseBaseDomainData | PurchaseSubdomainData;
 }
 
-// Utility function to validate purchase data
 export function validatePurchaseData(data: CreatePurchaseData): boolean {
   return !!(data.buyerID && data.price && data.price > 0);
 }
 
-// Utility function to validate domain purchase data
 export function validateDomainPurchaseData(data: DomainPurchaseRequest): boolean {
   if (!data.buyerID || !data.price || !data.purchaseType || !data.domainData) {
     return false;
@@ -58,12 +55,10 @@ export function validateDomainPurchaseData(data: DomainPurchaseRequest): boolean
   return false;
 }
 
-// Utility function to generate payment reference ID
 export function generatePaymentRefId(): string {
   return `PAY_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }
 
-// Utility function to calculate total spent by user
 export async function calculateUserTotalSpent(db: any, userId: string): Promise<number> {
   const purchases = await db
     .select({ price: purchase.price })
@@ -73,5 +68,3 @@ export async function calculateUserTotalSpent(db: any, userId: string): Promise<
   return purchases.reduce((total: number, p: any) => total + parseFloat(p.price), 0);
 }
 
-// Import eq for the utility function
-import { eq } from 'drizzle-orm'; 

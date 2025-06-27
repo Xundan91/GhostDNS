@@ -73,7 +73,7 @@ const DomainProviderStep: React.FC<DomainProviderStepProps> = ({
               onClick={() => handleProviderSelect(provider)}
               className={`p-4 rounded-lg border-2 transition-all duration-200 ${
                 selectedProvider === provider
-                  ? 'border-emerald-500 bg-emerald-500/10'
+                  ? 'border-accent-light bg-accent-light/10 dark:border-accent-dark dark:bg-accent-dark/10'
                   : 'border-white/10 dark:border-white/5 hover:border-white/20 dark:hover:border-white/10'
               }`}
               whileHover={{ scale: 1.02 }}
@@ -83,8 +83,6 @@ const DomainProviderStep: React.FC<DomainProviderStepProps> = ({
             </motion.button>
           ))}
         </div>
-
-
 
         {error && (
           <motion.p
@@ -110,7 +108,7 @@ const DomainProviderStep: React.FC<DomainProviderStepProps> = ({
           <motion.button
             onClick={handleNext}
             disabled={!selectedProvider }
-            className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-blue-500 hover:from-emerald-600 hover:to-blue-600 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-lg font-semibold transition-all duration-300 disabled:cursor-not-allowed"
+            className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-accent-light dark:bg-accent-dark text-primary-light dark:text-primary-dark hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-semibold transition-all duration-300"
             whileHover={{ scale: selectedProvider ? 1.02 : 1 }}
             whileTap={{ scale: selectedProvider ? 0.98 : 1 }}
           >

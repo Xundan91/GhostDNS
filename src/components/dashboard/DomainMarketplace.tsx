@@ -230,7 +230,7 @@ const DomainMarketplace: React.FC = () => {
             placeholder="Search domains..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-accent-light/5 dark:bg-accent-dark/5 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 dark:focus:ring-blue-500/20 transition-all duration-300"
+            className="w-full pl-12 pr-4 py-3 bg-accent-light/5 dark:bg-accent-dark/5 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-light/20 dark:focus:ring-accent-dark/20 transition-all duration-300"
           />
         </div>
 
@@ -269,7 +269,7 @@ const DomainMarketplace: React.FC = () => {
                       setShowSortMenu(false);
                     }}
                     className={`w-full flex items-center space-x-3 px-3 py-2 text-left hover:bg-accent-light/10 dark:hover:bg-accent-dark/10 transition-colors ${
-                      sortOption === option.value ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : ''
+                      sortOption === option.value ? 'bg-accent-light/10 dark:bg-accent-dark/10 text-accent-light dark:text-accent-dark' : ''
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -309,7 +309,7 @@ const DomainMarketplace: React.FC = () => {
                 onClick={() => handleDomainClick(domain)}
               >
                 {/* Subtle gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-transparent to-purple-50/30 dark:from-blue-900/20 dark:to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-50/30 via-transparent to-gray-100/30 dark:from-gray-800/20 dark:to-gray-700/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 
                 {/* Header with domain name and price */}
                 <div className="relative z-10 flex items-start justify-between mb-4">
@@ -318,14 +318,14 @@ const DomainMarketplace: React.FC = () => {
                       {domain.domainName}
                     </h3>
                     <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                      <div className="w-2 h-2 rounded-full bg-gray-500"></div>
                       <span className="text-sm text-gray-600 dark:text-gray-400">Available</span>
                     </div>
                   </div>
                   <div className="text-right ml-4">
                     <div className="flex items-center space-x-2">
-                      <div className="p-2 rounded-xl bg-gradient-to-br from-emerald-50 to-blue-50 dark:from-emerald-900/30 dark:to-blue-900/30">
-                        <DollarSign className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                      <div className="p-2 rounded-xl bg-gray-100 dark:bg-gray-800">
+                        <DollarSign className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                       </div>
                       <div>
                         <p className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -342,7 +342,7 @@ const DomainMarketplace: React.FC = () => {
                 {/* Platform info */}
                 <div className="relative z-10 mb-5">
                   <div className="inline-flex items-center space-x-2 px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                    <Globe className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                    <Globe className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{domain.platform}</span>
                   </div>
                 </div>
@@ -353,7 +353,7 @@ const DomainMarketplace: React.FC = () => {
                   <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
                     <span>Listed {formatDate(domain.createdAt)}</span>
                     <div className="flex items-center space-x-1">
-                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                      <div className="w-1.5 h-1.5 rounded-full bg-gray-500 animate-pulse"></div>
                       <span>Live</span>
                     </div>
                   </div>
@@ -362,7 +362,7 @@ const DomainMarketplace: React.FC = () => {
                   <div className="flex space-x-2">
                     <button 
                       onClick={(e) => handleDomainClick(domain)}
-                      className="flex-1 py-2.5 px-4 bg-gradient-to-r from-emerald-500 to-blue-500 hover:from-emerald-600 hover:to-blue-600 text-white rounded-xl font-medium transition-all duration-300 flex items-center justify-center space-x-2 shadow-sm hover:shadow-md"
+                      className="flex-1 py-2.5 px-4 bg-accent-light dark:bg-accent-dark text-primary-light dark:text-primary-dark hover:opacity-90 rounded-xl font-medium transition-all duration-300 flex items-center justify-center space-x-2 shadow-sm hover:shadow-md"
                     >
                       <Eye className="w-4 h-4" />
                       <span>View Details</span>

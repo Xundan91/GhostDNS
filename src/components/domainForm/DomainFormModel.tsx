@@ -68,7 +68,7 @@ const DomainFormModal: React.FC<DomainFormModalProps> = ({ isOpen, onClose }) =>
         return (
           <DomainNameStep
             formData={formData}
-            updateFormData={updateFormData}
+            setFormData={updateFormData}
             onNext={nextStep}
           />
         );
@@ -155,7 +155,7 @@ const DomainFormModal: React.FC<DomainFormModalProps> = ({ isOpen, onClose }) =>
               <div className="px-6 py-4">
                 <div className="w-full bg-black/5 dark:bg-white/5 rounded-full h-2">
                   <motion.div
-                    className="h-2 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full"
+                    className="h-2 bg-accent-light dark:bg-accent-dark rounded-full"
                     initial={{ width: 0 }}
                     animate={{ width: `${(currentStep / totalSteps) * 100}%` }}
                     transition={{ duration: 0.3 }}

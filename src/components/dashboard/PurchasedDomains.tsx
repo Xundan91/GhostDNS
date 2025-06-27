@@ -174,7 +174,7 @@ const PurchasedDomains: React.FC = () => {
               <button
                 className={`mt-4 w-full py-2 px-4 ${configuredMap[purchase.purchaseId]
                   ? 'bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600'
-                  : 'bg-gradient-to-r from-blue-500 to-emerald-500 hover:from-blue-600 hover:to-emerald-600'} text-white rounded-lg font-medium transition-all duration-300`}
+                  : 'bg-accent-light dark:bg-accent-dark hover:opacity-90'} text-primary-light dark:text-primary-dark rounded-lg font-medium transition-all duration-300`}
                 onClick={() => router.push(`/dashboard/domain/${purchase.basedomainId}/configuration`)}
               >
                 {configuredMap[purchase.purchaseId] ? 'Edit Configuration' : 'Configure Domain'}

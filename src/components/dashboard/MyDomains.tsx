@@ -136,8 +136,8 @@ const MyDomains: React.FC = () => {
                   ${domains.reduce((sum, domain) => sum + parseFloat(domain.price), 0).toLocaleString()}
                 </p>
               </div>
-              <div className="p-3 rounded-xl bg-green-500/10">
-                <DollarSign className="w-6 h-6 text-green-500" />
+              <div className="p-3 rounded-xl bg-accent-light/10 dark:bg-accent-dark/10">
+                <DollarSign className="w-6 h-6 text-accent-light dark:text-accent-dark" />
               </div>
             </div>
           </div>

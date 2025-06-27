@@ -116,8 +116,8 @@ const SuccessStep: React.FC<SuccessStepProps> = ({ formData, onClose }) => {
         transition={{ type: 'spring', stiffness: 200, damping: 20 }}
         className="relative"
       >
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500/20 to-green-500/20 mb-6">
-          <CheckCircle className="w-12 h-12 text-emerald-600 dark:text-emerald-400" />
+        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-accent-light/10 dark:bg-accent-dark/10 mb-6">
+          <CheckCircle className="w-12 h-12 text-accent-light dark:text-accent-dark" />
         </div>
         
         {/* Sparkle animations */}
@@ -158,11 +158,11 @@ const SuccessStep: React.FC<SuccessStepProps> = ({ formData, onClose }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
       >
-        <h3 className="text-2xl font-bold mb-2 text-emerald-600 dark:text-emerald-400">
+        <h3 className="text-2xl font-bold mb-2 text-accent-light dark:text-accent-dark">
           🎉 You have successfully registered your domain!
         </h3>
         <p className="text-sm opacity-70 mb-6">
-          Your domain <span className="font-semibold text-emerald-600 dark:text-emerald-400">{formData.domainName}</span> is now listed on our marketplace
+          Your domain <span className="font-semibold text-accent-light dark:text-accent-dark">{formData.domainName}</span> is now listed on our marketplace
         </p>
       </motion.div>
 
@@ -170,7 +170,7 @@ const SuccessStep: React.FC<SuccessStepProps> = ({ formData, onClose }) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="bg-gradient-to-r from-emerald-500/10 to-blue-500/10 rounded-lg p-4 border border-emerald-200/20 dark:border-emerald-400/20"
+        className="bg-accent-light/5 dark:bg-accent-dark/5 rounded-lg p-4 border border-accent-light/20 dark:border-accent-dark/20"
       >
         <h4 className="font-semibold mb-2">What happens next?</h4>
         <ul className="text-sm opacity-70 space-y-1 text-left">
@@ -183,7 +183,7 @@ const SuccessStep: React.FC<SuccessStepProps> = ({ formData, onClose }) => {
 
       <motion.button
         onClick={onClose}
-        className="w-full px-6 py-3 bg-gradient-to-r from-emerald-500 to-blue-500 hover:from-emerald-600 hover:to-blue-600 text-white rounded-lg font-semibold transition-all duration-300"
+        className="w-full px-6 py-3 bg-accent-light dark:bg-accent-dark text-primary-light dark:text-primary-dark hover:opacity-90 rounded-lg font-semibold transition-all duration-300"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         initial={{ opacity: 0, y: 20 }}

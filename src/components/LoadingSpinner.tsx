@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 
 interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg';
@@ -19,10 +18,8 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   };
 
   return (
-    <motion.div
-      className={`${sizeClasses[size]} border-2 border-emerald-500/20 border-t-emerald-500 rounded-full ${className}`}
-      animate={{ rotate: 360 }}
-      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+    <div 
+      className={`${sizeClasses[size]} border-2 border-gray-300/20 border-t-gray-600 dark:border-gray-600/20 dark:border-t-gray-300 rounded-full animate-spin ${className}`}
     />
   );
 };

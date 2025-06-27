@@ -46,7 +46,7 @@ export default function DashboardLayout({
   };
 
   if (status === "loading") {
-    return <AuthLoadingSkeleton />;
+    return <AuthLoadingSkeleton />; 
   }
 
   if (status === "unauthenticated") {
@@ -73,7 +73,7 @@ export default function DashboardLayout({
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-accent-light/10 dark:border-accent-dark/10">
             {!sidebarCollapsed && (
-              <span className="text-xl font-bold bg-gradient-to-r from-emerald-500 to-blue-500 bg-clip-text text-transparent">
+              <span className="text-xl font-bold text-accent-light dark:text-accent-dark">
                 DevDomain
               </span>
             )}
@@ -96,11 +96,11 @@ export default function DashboardLayout({
               href="/dashboard" 
               className={`flex items-center space-x-3 px-3 py-3 rounded-xl transition-all duration-300 ${
                 pathname === '/dashboard' 
-                  ? 'bg-gradient-to-r from-emerald-500/10 to-blue-500/10 border border-emerald-500/20 dark:border-blue-500/20' 
+                  ? 'bg-accent-light/10 dark:bg-accent-dark/10 border border-accent-light/20 dark:border-accent-dark/20' 
                   : 'hover:bg-accent-light/10 dark:hover:bg-accent-dark/10'
               }`}
             >
-              <Globe className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-5 h-5'} text-emerald-500`} />
+              <Globe className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-5 h-5'} text-accent-light dark:text-accent-dark`} />
               {!sidebarCollapsed && <span className="font-medium">My Dashboard</span>}
             </Link>
             
@@ -108,11 +108,11 @@ export default function DashboardLayout({
               href="/dashboard/my-domains" 
               className={`flex items-center space-x-3 px-3 py-3 rounded-xl transition-all duration-300 ${
                 pathname === '/dashboard/my-domains' 
-                  ? 'bg-gradient-to-r from-emerald-500/10 to-blue-500/10 border border-emerald-500/20 dark:border-blue-500/20' 
+                  ? 'bg-accent-light/10 dark:bg-accent-dark/10 border border-accent-light/20 dark:border-accent-dark/20' 
                   : 'hover:bg-accent-light/10 dark:hover:bg-accent-dark/10'
               }`}
             >
-              <Package className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-5 h-5'} text-blue-500`} />
+              <Package className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-5 h-5'} text-accent-light dark:text-accent-dark`} />
               {!sidebarCollapsed && <span>My Domains</span>}
             </Link>
             
@@ -120,11 +120,11 @@ export default function DashboardLayout({
               href="/dashboard/purchased-domains" 
               className={`flex items-center space-x-3 px-3 py-3 rounded-xl transition-all duration-300 ${
                 pathname === '/dashboard/purchased-domains' 
-                  ? 'bg-gradient-to-r from-emerald-500/10 to-blue-500/10 border border-emerald-500/20 dark:border-blue-500/20' 
+                  ? 'bg-accent-light/10 dark:bg-accent-dark/10 border border-accent-light/20 dark:border-accent-dark/20' 
                   : 'hover:bg-accent-light/10 dark:hover:bg-accent-dark/10'
               }`}
             >
-              <Zap className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-5 h-5'} text-purple-500`} />
+              <Zap className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-5 h-5'} text-accent-light dark:text-accent-dark`} />
               {!sidebarCollapsed && <span>Purchased Domains</span>}
             </Link>
             
@@ -132,11 +132,11 @@ export default function DashboardLayout({
               href="/dashboard/cart" 
               className={`flex items-center space-x-3 px-3 py-3 rounded-xl transition-all duration-300 ${
                 pathname === '/dashboard/cart' 
-                  ? 'bg-gradient-to-r from-emerald-500/10 to-blue-500/10 border border-emerald-500/20 dark:border-blue-500/20' 
+                  ? 'bg-accent-light/10 dark:bg-accent-dark/10 border border-accent-light/20 dark:border-accent-dark/20' 
                   : 'hover:bg-accent-light/10 dark:hover:bg-accent-dark/10'
               }`}
             >
-              <ShoppingCart className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-5 h-5'} text-orange-500`} />
+              <ShoppingCart className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-5 h-5'} text-accent-light dark:text-accent-dark`} />
               {!sidebarCollapsed && <span>Cart</span>}
             </Link>
             
@@ -144,11 +144,11 @@ export default function DashboardLayout({
               href="/dashboard/account" 
               className={`flex items-center space-x-3 px-3 py-3 rounded-xl transition-all duration-300 ${
                 pathname === '/dashboard/account' 
-                  ? 'bg-gradient-to-r from-emerald-500/10 to-blue-500/10 border border-emerald-500/20 dark:border-blue-500/20' 
+                  ? 'bg-accent-light/10 dark:bg-accent-dark/10 border border-accent-light/20 dark:border-accent-dark/20' 
                   : 'hover:bg-accent-light/10 dark:hover:bg-accent-dark/10'
               }`}
             >
-              <UserCircle className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-5 h-5'} text-indigo-500`} />
+              <UserCircle className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-5 h-5'} text-accent-light dark:text-accent-dark`} />
               {!sidebarCollapsed && <span>Account</span>}
             </Link>
           </nav>
@@ -156,8 +156,8 @@ export default function DashboardLayout({
           {/* User Profile Section */}
           <div className="p-4 border-t border-accent-light/10 dark:border-accent-dark/10">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-emerald-500 to-blue-500 flex items-center justify-center">
-                <User className="w-4 h-4 text-white" />
+              <div className="w-8 h-8 rounded-full bg-accent-light dark:bg-accent-dark flex items-center justify-center">
+                <User className="w-4 h-4 text-primary-light dark:text-primary-dark" />
               </div>
               {!sidebarCollapsed && (
                 <div className="flex-1 min-w-0">
@@ -186,7 +186,7 @@ export default function DashboardLayout({
                   placeholder="Search domains by name, platform, or price..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-accent-light/5 dark:bg-accent-dark/5 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 dark:focus:ring-blue-500/20 transition-all duration-300 text-lg"
+                  className="w-full pl-12 pr-4 py-3 bg-accent-light/5 dark:bg-accent-dark/5 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-light/20 dark:focus:ring-accent-dark/20 transition-all duration-300 text-lg"
                 />
               </form>
             </div>
@@ -198,46 +198,25 @@ export default function DashboardLayout({
                 <Bell className="w-5 h-5" />
                 <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
               </button>
-              
+
               <HeadlessMenu as="div" className="relative">
                 <HeadlessMenu.Button className="flex items-center space-x-2 p-2 rounded-lg hover:bg-accent-light/10 dark:hover:bg-accent-dark/10 transition-colors">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-emerald-500 to-blue-500 flex items-center justify-center">
-                    <User className="w-4 h-4 text-white" />
+                  <div className="w-8 h-8 rounded-full bg-accent-light dark:bg-accent-dark flex items-center justify-center">
+                    <User className="w-4 h-4 text-primary-light dark:text-primary-dark" />
                   </div>
                 </HeadlessMenu.Button>
 
-                <HeadlessMenu.Items className="absolute right-0 mt-2 w-48 bg-white/95 dark:bg-black/95 rounded-xl shadow-xl border border-accent-light/10 dark:border-accent-dark/10 py-2 backdrop-blur-xl">
-                  <HeadlessMenu.Item>
-                    {({ active }) => (
-                      <Link href="/dashboard/account" className={`${active ? 'bg-accent-light/10 dark:bg-accent-dark/10' : ''} flex items-center space-x-2 px-4 py-2`}>
-                        <UserCircle className="w-4 h-4" />
-                        <span>My Profile</span>
-                      </Link>
-                    )}
-                  </HeadlessMenu.Item>
-                  <HeadlessMenu.Item>
-                    {({ active }) => (
-                      <Link href="/dashboard/settings" className={`${active ? 'bg-accent-light/10 dark:bg-accent-dark/10' : ''} flex items-center space-x-2 px-4 py-2`}>
-                        <Settings className="w-4 h-4" />
-                        <span>Settings</span>
-                      </Link>
-                    )}
-                  </HeadlessMenu.Item>
+                <HeadlessMenu.Items className="absolute right-0 mt-2 w-48 bg-white dark:bg-black rounded-xl shadow-lg border border-accent-light/10 dark:border-accent-dark/10 py-2 z-50">
                   <HeadlessMenu.Item>
                     {({ active }) => (
                       <button
-                        onClick={() => {
-                          // Clear all local and session storage
-                          if (typeof window !== 'undefined') {
-                            localStorage.clear();
-                            sessionStorage.clear();
-                          }
-                          signOut({ callbackUrl: '/' });
-                        }}
-                        className={`${active ? 'bg-accent-light/10 dark:bg-accent-dark/10' : ''} flex items-center space-x-2 px-4 py-2 w-full text-left`}
+                        onClick={() => signOut()}
+                        className={`${
+                          active ? 'bg-accent-light/10 dark:bg-accent-dark/10' : ''
+                        } flex items-center space-x-2 w-full px-4 py-2 text-left`}
                       >
                         <LogOut className="w-4 h-4" />
-                        <span>Logout</span>
+                        <span>Sign Out</span>
                       </button>
                     )}
                   </HeadlessMenu.Item>
@@ -247,7 +226,7 @@ export default function DashboardLayout({
           </div>
         </header>
 
-        {/* Main Content Area */}
+        {/* Page Content */}
         <main className="p-6">
           {children}
         </main>

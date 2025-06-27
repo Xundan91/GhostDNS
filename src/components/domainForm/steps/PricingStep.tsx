@@ -58,13 +58,13 @@ const PricingStep: React.FC<PricingStepProps> = ({
       <div className="space-y-4">
         {/* Toggle Switch */}
         <div className="flex items-center justify-center space-x-4">
-          <span className={`font-medium ${pricingType === 'free' ? 'text-emerald-600 dark:text-emerald-400' : 'opacity-50'}`}>
+          <span className={`font-medium ${pricingType === 'free' ? 'text-accent-light dark:text-accent-dark' : 'opacity-50'}`}>
             Free
           </span>
           <motion.button
             onClick={() => handlePricingTypeChange(pricingType === 'free' ? 'paid' : 'free')}
             className={`relative w-14 h-8 rounded-full transition-colors duration-300 ${
-              pricingType === 'paid' ? 'bg-emerald-500' : 'bg-gray-300 dark:bg-gray-600'
+              pricingType === 'paid' ? 'bg-accent-light dark:bg-accent-dark' : 'bg-gray-300 dark:bg-gray-600'
             }`}
             whileTap={{ scale: 0.95 }}
           >
@@ -74,7 +74,7 @@ const PricingStep: React.FC<PricingStepProps> = ({
               transition={{ type: 'spring', stiffness: 500, damping: 30 }}
             />
           </motion.button>
-          <span className={`font-medium ${pricingType === 'paid' ? 'text-emerald-600 dark:text-emerald-400' : 'opacity-50'}`}>
+          <span className={`font-medium ${pricingType === 'paid' ? 'text-accent-light dark:text-accent-dark' : 'opacity-50'}`}>
             Paid
           </span>
         </div>
@@ -98,9 +98,7 @@ const PricingStep: React.FC<PricingStepProps> = ({
                 onChange={(e) => setPrice(Number(e.target.value))}
                 placeholder="0"
                 min="1"
-                className={`w-full pl-8 pr-4 py-3 rounded-lg bg-black/5 dark:bg-white/5 border ${
-                  error ? 'border-red-500' : 'border-white/10 dark:border-white/5'
-                } focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all duration-200`}
+                className={`w-full px-4 py-3 border border-accent-light/20 dark:border-accent-dark/20 rounded-xl bg-accent-light/5 dark:bg-accent-dark/5 text-accent-light dark:text-accent-dark placeholder-accent-light/40 dark:placeholder-accent-dark/40 focus:outline-none focus:ring-2 focus:ring-accent-light/20 dark:focus:ring-accent-dark/20 transition-all duration-200`}
               />
             </div>
           </motion.div>
@@ -129,7 +127,7 @@ const PricingStep: React.FC<PricingStepProps> = ({
 
           <motion.button
             onClick={handleNext}
-            className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-blue-500 hover:from-emerald-600 hover:to-blue-600 text-white rounded-lg font-semibold transition-all duration-300"
+            className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-accent-light dark:bg-accent-dark text-primary-light dark:text-primary-dark hover:opacity-90 rounded-lg font-semibold transition-all duration-300"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
