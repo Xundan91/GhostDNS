@@ -21,7 +21,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    // 1. Get basedomain (validate ownership)
     const baseDomain = await db.select().from(basedomain)
       .where(and(eq(basedomain.id, domainId), eq(basedomain.ownerId, session.user.id)))
       .limit(1);
@@ -30,7 +29,6 @@ export async function POST(request: NextRequest) {
     }
     const baseDomainId = baseDomain[0].id;
 
-    // 2. Get purchase record
     const purchaseDomain = await db.select().from(purchase)
       .where(and(eq(purchase.basedomainId, domainId), eq(purchase.buyerID, session.user.id)))
       .limit(1);
@@ -39,7 +37,6 @@ export async function POST(request: NextRequest) {
     }
     const purchaseDomainId = purchaseDomain[0].id;
 
-    // 3. Save configuration to database
     const configuration = await db.insert(configuredomain).values({
       userID_config: session.user.id,
       base_domain_id: baseDomainId,
@@ -51,7 +48,6 @@ export async function POST(request: NextRequest) {
       project_name: selectedProject.name,
       deployed_url: selectedProject.url,
       cname: cname,
-      // created_at will be set by default
     }).returning();
 
     return NextResponse.json({
