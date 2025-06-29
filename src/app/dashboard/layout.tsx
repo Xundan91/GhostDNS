@@ -219,14 +219,109 @@ export default function DashboardLayout({
                   </div>
                 </HeadlessMenu.Button>
 
-                <HeadlessMenu.Items className="absolute right-0 mt-2 w-48 bg-white dark:bg-black rounded-xl shadow-lg border border-accent-light/10 dark:border-accent-dark/10 py-2 z-50">
+                <HeadlessMenu.Items className="absolute right-0 mt-2 w-64 bg-white dark:bg-black rounded-xl shadow-lg border border-accent-light/10 dark:border-accent-dark/10 py-2 z-50">
+                  {/* User Info */}
+                  <div className="px-4 py-3 border-b border-accent-light/10 dark:border-accent-dark/10">
+                    <p className="text-sm font-medium text-accent-light dark:text-accent-dark">{session?.user?.name || 'User'}</p>
+                    <p className="text-xs text-accent-light/60 dark:text-accent-dark/60">{session?.user?.email}</p>
+                  </div>
+
+                  {/* Navigation Items */}
+                  <HeadlessMenu.Item>
+                    {({ active }) => (
+                      <Link
+                        href="/dashboard"
+                        className={`${
+                          active ? 'bg-accent-light/10 dark:bg-accent-dark/10' : ''
+                        } flex items-center space-x-3 w-full px-4 py-3 text-left transition-colors`}
+                      >
+                        <Globe className="w-4 h-4 text-accent-light dark:text-accent-dark" />
+                        <span>My Dashboard</span>
+                      </Link>
+                    )}
+                  </HeadlessMenu.Item>
+
+                  <HeadlessMenu.Item>
+                    {({ active }) => (
+                      <Link
+                        href="/dashboard/my-domains"
+                        className={`${
+                          active ? 'bg-accent-light/10 dark:bg-accent-dark/10' : ''
+                        } flex items-center space-x-3 w-full px-4 py-3 text-left transition-colors`}
+                      >
+                        <Package className="w-4 h-4 text-accent-light dark:text-accent-dark" />
+                        <span>My Domains</span>
+                      </Link>
+                    )}
+                  </HeadlessMenu.Item>
+
+                  <HeadlessMenu.Item>
+                    {({ active }) => (
+                      <Link
+                        href="/dashboard/purchased-domains"
+                        className={`${
+                          active ? 'bg-accent-light/10 dark:bg-accent-dark/10' : ''
+                        } flex items-center space-x-3 w-full px-4 py-3 text-left transition-colors`}
+                      >
+                        <Zap className="w-4 h-4 text-accent-light dark:text-accent-dark" />
+                        <span>Purchased Domains</span>
+                      </Link>
+                    )}
+                  </HeadlessMenu.Item>
+
+                  <HeadlessMenu.Item>
+                    {({ active }) => (
+                      <Link
+                        href="/dashboard/all-configured-domains"
+                        className={`${
+                          active ? 'bg-accent-light/10 dark:bg-accent-dark/10' : ''
+                        } flex items-center space-x-3 w-full px-4 py-3 text-left transition-colors`}
+                      >
+                        <LucideLink className="w-4 h-4 text-accent-light dark:text-accent-dark" />
+                        <span>All Configured Domains</span>
+                      </Link>
+                    )}
+                  </HeadlessMenu.Item>
+
+                  <HeadlessMenu.Item>
+                    {({ active }) => (
+                      <Link
+                        href="/dashboard/cart"
+                        className={`${
+                          active ? 'bg-accent-light/10 dark:bg-accent-dark/10' : ''
+                        } flex items-center space-x-3 w-full px-4 py-3 text-left transition-colors`}
+                      >
+                        <ShoppingCart className="w-4 h-4 text-accent-light dark:text-accent-dark" />
+                        <span>Cart</span>
+                      </Link>
+                    )}
+                  </HeadlessMenu.Item>
+
+                  <HeadlessMenu.Item>
+                    {({ active }) => (
+                      <Link
+                        href="/dashboard/account"
+                        className={`${
+                          active ? 'bg-accent-light/10 dark:bg-accent-dark/10' : ''
+                        } flex items-center space-x-3 w-full px-4 py-3 text-left transition-colors`}
+                      >
+                        <UserCircle className="w-4 h-4 text-accent-light dark:text-accent-dark" />
+                        <span>Account</span>
+                      </Link>
+                    )}
+                  </HeadlessMenu.Item>
+
+                  {/* Divider */}
+                  <div className="border-t border-accent-light/10 dark:border-accent-dark/10 my-2"></div>
+
+                  {/* Logout */}
                   <HeadlessMenu.Item>
                     {({ active }) => (
                       <button
                         onClick={() => signOut()}
                         className={`${
                           active ? 'bg-accent-light/10 dark:bg-accent-dark/10' : ''
-                        } flex items-center space-x-2 w-full px-4 py-2 text-left`}
+                        } flex items-center space-x-3 w-full px-4 py-3 text-left transition-colors`}
                       >
                         <LogOut className="w-4 h-4" />
                         <span>Sign Out</span>
