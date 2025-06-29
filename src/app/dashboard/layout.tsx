@@ -25,6 +25,7 @@ export default function DashboardLayout({
     console.log("Dashboard Layout - Session Status:", status);
     console.log("Dashboard Layout - Session Data:", session);
 
+    
     if (status === "loading") {
       console.log("Session is loading...");
       return;
@@ -126,6 +127,18 @@ export default function DashboardLayout({
             >
               <Zap className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-5 h-5'} text-accent-light dark:text-accent-dark`} />
               {!sidebarCollapsed && <span>Purchased Domains</span>}
+            </Link>
+            
+            <Link 
+              href="/dashboard/all-configured-domains" 
+              className={`flex items-center space-x-3 px-3 py-3 rounded-xl transition-all duration-300 ${
+                pathname === '/dashboard/all-configured-domains' 
+                  ? 'bg-accent-light/10 dark:bg-accent-dark/10 border border-accent-light/20 dark:border-accent-dark/20' 
+                  : 'hover:bg-accent-light/10 dark:hover:bg-accent-dark/10'
+              }`}
+            >
+              <LucideLink className={`${sidebarCollapsed ? 'w-12 h-12' : 'w-5 h-5'} text-accent-light dark:text-accent-dark`} />
+              {!sidebarCollapsed && <span>All Configured Domains</span>}
             </Link>
             
             <Link 

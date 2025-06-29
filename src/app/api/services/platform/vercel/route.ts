@@ -6,7 +6,7 @@ import { authOptions } from '@/lib/auth';
 import { db } from '@/database';
 import { configuredomain } from '@/database/schema/configuredomain';
 import { basedomain } from '@/database/schema/basedomain';
-import { eq } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,6 +17,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { domainId } = await req.json();
+
+    if (!domainId) {
+      return NextResponse.json({ error: 'Domain ID is required' }, { status: 400 });
+    }
+
     const [config] = await db
       .select({
         vercelapikey: configuredomain.vercelapikey,
@@ -25,7 +31,10 @@ export async function POST(req: NextRequest) {
         base_domain_id: configuredomain.base_domain_id,
       })
       .from(configuredomain)
-      .where(eq(configuredomain.userID_config, userId));
+      .where(and(
+        eq(configuredomain.id, domainId),
+        eq(configuredomain.userID_config, userId)
+      ));
 
     if (!config) {
       return NextResponse.json({ error: 'Configuration not found' }, { status: 404 });
@@ -56,11 +65,11 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({
-      message: `Domain registered successfully: ${fulldomain}`,
+      message: `Domain updated successfully: ${fulldomain}`,
       data: vercelResponse,
     });
   } catch (error: any) {
-    console.error('Error adding domain to Vercel:', error?.response?.data || error.message);
+    console.error('Error updating domain in Vercel:', error?.response?.data || error.message);
     return NextResponse.json(
       { error: 'Internal server error', details: error?.message || error },
       { status: 500 }

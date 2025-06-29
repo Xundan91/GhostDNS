@@ -7,11 +7,7 @@ export async function POST(request: NextRequest) {
     if (!apiKey) {
       return NextResponse.json({ error: 'API key is required' }, { status: 400 });
     }
-
-   
-
     if (service === 'vercel') {
-      // Fetch projects from Vercel API
       const response = await fetch('https://api.vercel.com/v9/projects', {
         headers: {
           'Authorization': `Bearer ${apiKey}`,
@@ -26,7 +22,6 @@ export async function POST(request: NextRequest) {
       }
 
       const data = await response.json();
-      // Transform Vercel projects to our format
       const projects = data.projects?.map((project: any) => ({
         id: project.id,
         name: project.name,
@@ -37,7 +32,6 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({ projects });
     } else if (service === 'netlify') {
-      // Fetch sites from Netlify API
       const response = await fetch('https://api.netlify.com/api/v1/sites', {
         headers: {
           'Authorization': `Bearer ${apiKey}`,
