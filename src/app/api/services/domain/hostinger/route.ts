@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
       // );
 
     if (!configData) {
-      console.error("❌ No configuredomain found for this domainId and user");
+      console.error("No configuredomain found for this domainId and user");
       return NextResponse.json({ error: "Configuration not found" }, { status: 404 });
     }
 
