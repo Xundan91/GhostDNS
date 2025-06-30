@@ -22,15 +22,18 @@ export async function POST(request: NextRequest) {
     }
 
     // 1. Get basedomain (validate ownership)
+    //dont validate the ownership the ownership 
+    //validate the purchase.buyerid == session.user?.id 
+    //  purchase.id === session id this would be great
     const baseDomain = await db.select().from(basedomain)
-      .where(and(eq(basedomain.id, domainId), eq(basedomain.ownerId, session.user.id)))
+      .where(and(eq(basedomain.id, domainId)))
       .limit(1);
     if (!baseDomain.length) {
-      return NextResponse.json({ error: 'Base domain not found or not owned by user' }, { status: 404 });
+      return NextResponse.json({ error: 'Base domain error' }, { status: 404 });
     }
     const baseDomainId = baseDomain[0].id;
 
-    // 2. Get purchase record
+    // Get purchase record
     const purchaseDomain = await db.select().from(purchase)
       .where(and(eq(purchase.basedomainId, domainId), eq(purchase.buyerID, session.user.id)))
       .limit(1);

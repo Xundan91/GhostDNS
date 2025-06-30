@@ -3,24 +3,33 @@ import axios from "axios";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/database";
-import { configuredomain} from "@/database/schema/configuredomain"
-import {eq, and } from "drizzle-orm"
+import { configuredomain } from "@/database/schema/configuredomain";
 import { basedomain } from "@/database/schema/basedomain";
+import { eq, and } from "drizzle-orm";
 
 export async function POST(req: NextRequest) {
   try {
+    console.log("➡️ Hostinger API invoked");
+
+    // Auth check
     const session = await getServerSession(authOptions);
-    if (!session || !session.user?.id){
-      return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+    const userId = session?.user?.id;
+    if (!userId) {
+      console.error("❌ Unauthorized request: session invalid");
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { domainId } = await req.json();
+    // Parse body once
+    const body = await req.json();
+    const domainId = body.domainId;
+    console.log("📥 Received body:", body);
 
     if (!domainId) {
+      console.error("❌ Missing domainId in request body");
       return NextResponse.json({ error: "Domain ID is required" }, { status: 400 });
     }
 
-    // Get the specific configured domain
+    // Fetch configured domain
     const [configData] = await db
       .select({
         subdomain: configuredomain.cname,
@@ -28,16 +37,19 @@ export async function POST(req: NextRequest) {
         base_domain_id: configuredomain.base_domain_id,
       })
       .from(configuredomain)
-      .where(and(
-        eq(configuredomain.id, domainId),
-        eq(configuredomain.userID_config, session.user.id)
-      ));
+      // .where(
+      //   and(
+      //     eq(configuredomain.domain_id, domainId),
+      //     eq(configuredomain.userID_config, userId)
+      //   )
+      // );
 
     if (!configData) {
+      console.error("❌ No configuredomain found for this domainId and user");
       return NextResponse.json({ error: "Configuration not found" }, { status: 404 });
     }
 
-    // Get the base domain data
+    // Fetch base domain
     const [domainData] = await db
       .select({
         apikey: basedomain.apiKey,
@@ -47,15 +59,35 @@ export async function POST(req: NextRequest) {
       .where(eq(basedomain.id, configData.base_domain_id));
 
     if (!domainData) {
+      console.error("❌ Base domain not found for ID:", configData.base_domain_id);
       return NextResponse.json({ error: "Base domain not found" }, { status: 404 });
     }
 
-    const { subdomain, target } = configData;
+    const { subdomain, target: rawTarget } = configData;
+
+    // Clean target (remove protocol and trailing slash, add trailing dot)
+    let target = (rawTarget ?? "")
+      .trim()
+      .replace(/^https?:\/\//, "") // remove http/https
+      .replace(/\/$/, "");         // remove trailing slash
+
+    if (!target.endsWith(".")) {
+      target += ".";
+    }
+
     const { domain, apikey } = domainData;
 
     if (!subdomain || !target || !domain || !apikey) {
-      return NextResponse.json({ message: "Missing required parameters" }, { status: 400 });
+      console.error("❌ Missing parameters:", { subdomain, target, domain, apikey });
+      return NextResponse.json({ error: "Missing required parameters" }, { status: 400 });
     }
+
+    console.log("📡 Making PUT request to Hostinger with:", {
+      domain,
+      subdomain,
+      target,
+      apikey,
+    });
 
     const response = await axios.put(
       `https://developers.hostinger.com/api/dns/v1/zones/${domain}`,
@@ -68,7 +100,7 @@ export async function POST(req: NextRequest) {
             ttl: 3600,
             records: [
               {
-                content: target.endsWith(".") ? target : target + ".",
+                content: target,
                 is_disabled: false,
               },
             ],
@@ -77,22 +109,25 @@ export async function POST(req: NextRequest) {
       },
       {
         headers: {
-          Authorization: `bearer ${apikey}`,
-          "content-Type": "application/json",
+          Authorization: `Bearer ${apikey}`,
+          "Content-Type": "application/json",
         },
       }
     );
+
+    console.log("✅ Hostinger response:", response.data);
 
     return NextResponse.json({
       message: "CNAME record updated successfully",
       data: response.data,
     });
   } catch (error: any) {
-    console.error("Error updating CNAME record", error.response?.data || error.message);
+    const errData = error.response?.data || error.message || error;
+    console.error("❌ Error updating CNAME:", errData);
     return NextResponse.json(
       {
         message: "Internal server error",
-        error: error.response?.data || error.message,
+        error: errData,
       },
       {
         status: 500,
