@@ -9,23 +9,23 @@ import { eq, and } from "drizzle-orm";
 
 export async function POST(req: NextRequest) {
   try {
-    console.log("➡️ Hostinger API invoked");
+    console.log(" Hostinger API invoked");
 
     // Auth check
     const session = await getServerSession(authOptions);
     const userId = session?.user?.id;
     if (!userId) {
-      console.error("❌ Unauthorized request: session invalid");
+      console.error("Unauthorized request: session invalid");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Parse body once
     const body = await req.json();
     const domainId = body.domainId;
-    console.log("📥 Received body:", body);
+    console.log("Received body:", body);
 
     if (!domainId) {
-      console.error("❌ Missing domainId in request body");
+      console.error("Missing domainId in request body");
       return NextResponse.json({ error: "Domain ID is required" }, { status: 400 });
     }
 
@@ -36,9 +36,10 @@ export async function POST(req: NextRequest) {
         target: configuredomain.deployed_url,
         base_domain_id: configuredomain.base_domain_id,
       })
+      //or operator in place of and operator 
       .from(configuredomain)
       // .where(
-      //   and(
+      //   and(\
       //     eq(configuredomain.domain_id, domainId),
       //     eq(configuredomain.userID_config, userId)
       //   )
@@ -59,7 +60,7 @@ export async function POST(req: NextRequest) {
       .where(eq(basedomain.id, configData.base_domain_id));
 
     if (!domainData) {
-      console.error("❌ Base domain not found for ID:", configData.base_domain_id);
+      console.error("Base domain not found for ID:", configData.base_domain_id);
       return NextResponse.json({ error: "Base domain not found" }, { status: 404 });
     }
 
@@ -78,11 +79,11 @@ export async function POST(req: NextRequest) {
     const { domain, apikey } = domainData;
 
     if (!subdomain || !target || !domain || !apikey) {
-      console.error("❌ Missing parameters:", { subdomain, target, domain, apikey });
+      console.error("Missing parameters:", { subdomain, target, domain, apikey });
       return NextResponse.json({ error: "Missing required parameters" }, { status: 400 });
     }
 
-    console.log("📡 Making PUT request to Hostinger with:", {
+    console.log(" Making PUT request to Hostinger with:", {
       domain,
       subdomain,
       target,
@@ -115,7 +116,7 @@ export async function POST(req: NextRequest) {
       }
     );
 
-    console.log("✅ Hostinger response:", response.data);
+    console.log(" Hostinger response:", response.data);
 
     return NextResponse.json({
       message: "CNAME record updated successfully",
@@ -123,7 +124,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (error: any) {
     const errData = error.response?.data || error.message || error;
-    console.error("❌ Error updating CNAME:", errData);
+    console.error("Error updating CNAME:", errData);
     return NextResponse.json(
       {
         message: "Internal server error",
