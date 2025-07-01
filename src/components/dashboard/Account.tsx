@@ -8,6 +8,26 @@ interface Domain {
   domainName: string;
 }
 
+// Profile section skeleton loader
+const ProfileSectionSkeleton: React.FC = () => (
+  <section className="mb-14 animate-pulse">
+    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Profile</h2>
+    <form className="space-y-6">
+      <div className="flex flex-col gap-2">
+        <label className="text-base font-bold text-gray-700 dark:text-gray-200">Name</label>
+        <div className="flex items-center gap-3">
+          <div className="w-full h-10 bg-gray-200 dark:bg-zinc-800 rounded-lg" />
+          <div className="ml-2 px-8 py-2 bg-gray-300 dark:bg-zinc-700 rounded-lg" />
+        </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <label className="text-base font-bold text-gray-700 dark:text-gray-200">Email</label>
+        <div className="w-full h-8 bg-gray-200 dark:bg-zinc-800 rounded-lg" />
+      </div>
+    </form>
+  </section>
+);
+
 const Account: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const [form, setForm] = useState({ name: '', email: '', password: '' });
@@ -122,7 +142,11 @@ const Account: React.FC = () => {
       <h1 className="text-4xl font-extrabold mb-2 text-gray-900 dark:text-white tracking-tight">Account Settings</h1>
       <p className="text-lg text-gray-600 dark:text-gray-400 mb-10 font-semibold">Your profile and domain overview</p>
       {loading ? (
-        <div className="text-gray-400 font-bold text-lg">Loading...</div>
+        <>
+          <ProfileSectionSkeleton />
+          <hr className="my-12 border-gray-200 dark:border-gray-800" />
+          {/* Stats Section (can be skeletonized similarly if needed) */}
+        </>
       ) : error ? (
         <div className="text-red-500 font-bold text-lg">{error}</div>
       ) : (
