@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, timestamp, text } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, varchar, timestamp, text, boolean } from 'drizzle-orm/pg-core';
 import { basedomain } from './basedomain';
 import { purchase } from './purchase';
 import { users } from "./users"
@@ -8,6 +8,7 @@ export const configuredomain = pgTable('configuredomain', {
   userID_config: text('userID_config').notNull().references(() => users.id),
   base_domain_id: text('base_domain_id').notNull().references(() => basedomain.id),
   purchase_domain: text('purchase_domain').notNull().references(() => purchase.id),
+  isconfigured: boolean('isconfigured').default(false),
   domain_id: varchar('domain_id', { length: 64 }).notNull(),
   platform: varchar('platform', { length: 32 }).notNull(),
   vercelapikey: varchar('api_key', { length: 256 }),
@@ -16,6 +17,8 @@ export const configuredomain = pgTable('configuredomain', {
   deployed_url: varchar('deployed_url', { length: 512 }),
   cname: varchar('cname', { length: 256 }).notNull(),
   created_at: timestamp('created_at').defaultNow().notNull()
+
+
 }); 
 //purchase_domain
 //api_key

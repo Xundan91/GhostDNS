@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { db } from "@/database";
 import { configuredomain } from "@/database/schema/configuredomain";
 import { basedomain } from "@/database/schema/basedomain";
-import { eq, and } from "drizzle-orm";
+import { eq, and, or } from "drizzle-orm";
 
 export async function POST(req: NextRequest) {
   try {
@@ -36,14 +36,14 @@ export async function POST(req: NextRequest) {
         target: configuredomain.deployed_url,
         base_domain_id: configuredomain.base_domain_id,
       })
-      //or operator in place of and operator 
       .from(configuredomain)
-      // .where(
-      //   and(\
-      //     eq(configuredomain.domain_id, domainId),
-      //     eq(configuredomain.userID_config, userId)
-      //   )
-      // );
+      .where(
+        or(
+          eq(configuredomain.domain_id, domainId),
+          eq(configuredomain.userID_config, userId)
+        )
+
+      );
 
     if (!configData) {
       console.error("No configuredomain found for this domainId and user");
