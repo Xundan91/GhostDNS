@@ -40,7 +40,7 @@ const PurchasedDomains: React.FC = () => {
               const res = await fetch(`/api/configuredomain?purchasedomain=${purchase.purchaseId}`);
               const data = await res.json();
               map[purchase.purchaseId] = !!data.configuredomain;
-            } catch {
+            } catch {     
               map[purchase.purchaseId] = false;
             }
           })

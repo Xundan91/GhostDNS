@@ -6,7 +6,7 @@ import { ArrowRight, ArrowLeft, Settings, Search, Globe, ExternalLink } from 'lu
 interface ProjectSelectionStepProps {
   configurationData: {
     service: 'vercel' | 'netlify' | '';
-    apiKey: string;
+    vercelapikey: string;
     selectedProject: {
       id: string;
       name: string;
@@ -38,10 +38,10 @@ const ProjectSelectionStep: React.FC<ProjectSelectionStepProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    if (configurationData.service && configurationData.apiKey) {
+    if (configurationData.service && configurationData.vercelapikey) {
       fetchProjects();
     }
-  }, [configurationData.service, configurationData.apiKey]);
+  }, [configurationData.service, configurationData.vercelapikey]);
 
   const fetchProjects = async () => {
     try {
@@ -54,7 +54,7 @@ const ProjectSelectionStep: React.FC<ProjectSelectionStepProps> = ({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          apiKey: configurationData.apiKey,
+          vercelapikey: configurationData.vercelapikey,
           service: configurationData.service
         }),
       });

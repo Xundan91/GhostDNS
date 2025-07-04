@@ -15,7 +15,7 @@ interface DomainConfigurationProps {
 
 interface ConfigurationData {
   service: 'vercel' | 'netlify' | '';
-  apiKey: string;
+  vercelapikey: string;
   selectedProject: {
     id: string;
     name: string;
@@ -32,7 +32,7 @@ const DomainConfiguration: React.FC<DomainConfigurationProps> = ({ domainId }) =
   const [domainData, setDomainData] = useState<any>(null);
   const [configurationData, setConfigurationData] = useState<ConfigurationData>({
     service: '',
-    apiKey: '',
+    vercelapikey: '',
     selectedProject: null,
     cname: '',
     domainName: ''
@@ -42,6 +42,7 @@ const DomainConfiguration: React.FC<DomainConfigurationProps> = ({ domainId }) =
 
   useEffect(() => {
     fetchDomainData();
+    console.log(domainId);
   }, [domainId]);
 
   const fetchDomainData = async () => {
@@ -90,7 +91,14 @@ const DomainConfiguration: React.FC<DomainConfigurationProps> = ({ domainId }) =
         },
         body: JSON.stringify({
           domainId,
-          ...configurationData
+          platform: configurationData.service,
+          vercelapikey: configurationData.vercelapikey,
+          projectId: configurationData.selectedProject?.id || '',
+          projectName: configurationData.selectedProject?.name || '',
+          deployedUrl: configurationData.selectedProject?.url || '',
+          cname: configurationData.cname,
+          basedomain: domainData?.basedomainId || '',
+          purchasedomain: domainData?.purchaseId || '',
         }),
       });
 

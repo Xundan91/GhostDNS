@@ -15,11 +15,9 @@ export const configuredomain = pgTable('configuredomain', {
   project_id: varchar('project_id', { length: 128 }),
   project_name: varchar('project_name', { length: 256 }),
   deployed_url: varchar('deployed_url', { length: 512 }),
+  
   cname: varchar('cname', { length: 256 }).notNull(),
   created_at: timestamp('created_at').defaultNow().notNull()
 
 
 }); 
-//purchase_domain
-//api_key
-//deployed_url

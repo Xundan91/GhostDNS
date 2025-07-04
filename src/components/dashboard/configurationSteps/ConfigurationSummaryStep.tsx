@@ -6,7 +6,7 @@ import { ArrowLeft, CheckCircle, Globe, Key, Settings, Link } from 'lucide-react
 interface ConfigurationSummaryStepProps {
   configurationData: {
     service: 'vercel' | 'netlify' | '';
-    apiKey: string;
+    vercelapikey: string;
     selectedProject: {
       id: string;
       name: string;

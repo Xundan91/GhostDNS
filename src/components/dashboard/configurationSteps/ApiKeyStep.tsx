@@ -6,7 +6,7 @@ import { ArrowRight, ArrowLeft, Key, Eye, EyeOff } from 'lucide-react';
 interface ApiKeyStepProps {
   configurationData: {
     service: 'vercel' | 'netlify' | '';
-    apiKey: string;
+    vercelapikey: string;
   };
   updateConfigurationData: (data: any) => void;
   onNext: () => void;
@@ -24,18 +24,17 @@ const ApiKeyStep: React.FC<ApiKeyStepProps> = ({
 
   const handleApiKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    updateConfigurationData({ apiKey: value });
+    updateConfigurationData({ vercelapikey: value });
     if (error) setError('');
   };
 
   const handleNext = () => {
-    if (!configurationData.apiKey.trim()) {
+    if (!configurationData.vercelapikey.trim()) {
       setError('Please enter your API key');
       return;
     }
     
-    
-    if (configurationData.service === 'netlify' && !configurationData.apiKey.startsWith('nf_')) {
+    if (configurationData.service === 'netlify' && !configurationData.vercelapikey.startsWith('nf_')) {
       setError('Netlify API key should start with "nf_"');
       return;
     }
@@ -94,14 +93,14 @@ const ApiKeyStep: React.FC<ApiKeyStepProps> = ({
       {/* API Key Input */}
       <div className="space-y-4">
         <div>
-          <label htmlFor="apiKey" className="block text-sm font-medium text-accent-light dark:text-accent-dark mb-2">
+          <label htmlFor="vercelapikey" className="block text-sm font-medium text-accent-light dark:text-accent-dark mb-2">
             API Key
           </label>
           <div className="relative">
             <input
               type={showApiKey ? 'text' : 'password'}
-              id="apiKey"
-              value={configurationData.apiKey}
+              id="vercelapikey"
+              value={configurationData.vercelapikey}
               onChange={handleApiKeyChange}
               placeholder={`Enter your ${configurationData.service} API key`}
               className={`w-full px-4 py-3 pr-12 border border-accent-light/20 dark:border-accent-dark/20 rounded-xl bg-accent-light/5 dark:bg-accent-dark/5 text-accent-light dark:text-accent-dark placeholder-accent-light/40 dark:placeholder-accent-dark/40 focus:outline-none focus:ring-2 focus:ring-accent-light/20 dark:focus:ring-accent-dark/20 transition-all duration-200 font-mono text-sm`}
@@ -153,7 +152,7 @@ const ApiKeyStep: React.FC<ApiKeyStepProps> = ({
         
         <button
           onClick={handleNext}
-          disabled={!configurationData.apiKey.trim()}
+          disabled={!configurationData.vercelapikey.trim()}
           className="flex items-center space-x-2 px-6 py-3 bg-accent-light dark:bg-accent-dark text-primary-light dark:text-primary-dark hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-semibold transition-all duration-300"
         >
           <span>Continue</span>
