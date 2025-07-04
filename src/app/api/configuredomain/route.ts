@@ -3,10 +3,13 @@ import { getServerSession } from 'next-auth';
 import { db } from '@/database/index';
 import { configuredomain } from '@/database/schema/configuredomain';
 import { authOptions } from '@/lib/auth';
+import { log } from 'console';
 
 export async function GET(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user?.id) {
+    console.log(session?.user?.id);
+    
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
   const { searchParams } = new URL(req.url);
