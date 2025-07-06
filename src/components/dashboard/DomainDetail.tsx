@@ -77,7 +77,7 @@ const DomainDetail: React.FC<DomainDetailProps> = ({ domainId }) => {
     try {
       const res = await fetch('/api/purchase', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' }, 
         body: JSON.stringify({ basedomainId: domain.id }),
       });
       const data = await res.json();

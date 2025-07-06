@@ -10,15 +10,18 @@ export async function POST(req:Request){
     try {
         const body = await req.json();
         const {name , email , password} = body;
+
         if(!name || !email || !password){
             return NextResponse.json({error:"Missing field",status :400});
         }
+
         const [existinguser] = await db.select().from(users).where(eq(users.email , email)).limit(1);
+
         if(existinguser){
             return NextResponse.json({msg: "user already exist"}, {status : 409});
         }
-        const hashpassword = await bcrypt.hash(password,10);
 
+        const hashpassword = await bcrypt.hash(password,10);
         const newUser = await db.insert(users).values({
             name , 
             email,

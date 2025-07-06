@@ -8,7 +8,6 @@ import { eq } from "drizzle-orm";
 
 export async function GET() {
     try {
-        // For marketplace, we want to show all domains, not just user-specific ones
         const domains = await db.select({
             id: basedomain.id,
             domainName: basedomain.domainName,
@@ -49,13 +48,13 @@ export async function POST(req: Request) {
     try {
         const [createdDomain] = await db.insert(basedomain).values({
             domainName,
-            platform: provider, // maps provider to platform
+            platform: provider, 
             price: priceStr,
             ownerId: session.user.id,
             apiKey,
         }).returning();
 
-        return NextResponse.json({ message: "Domain submitted successfully", domain: createdDomain }, { status: 200 });
+        return NextResponse.json({ message: "Domain submitted successfully", domain: 4 }, { status: 200 });
     } catch (error) {
         console.error(`[Domain submit error]:`, error);
         return NextResponse.json({ error: "Internal server error" }, { status: 500 });

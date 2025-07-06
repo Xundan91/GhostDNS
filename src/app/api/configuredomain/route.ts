@@ -15,7 +15,7 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const purchasedomain = searchParams.get('purchasedomain');
   const domainId = searchParams.get('domainId');
-  if (!purchasedomain && !domainId) {
+  if (!purchasedomain && !domainId) {  
     return NextResponse.json({ error: 'Missing query param: purchasedomain or domainId' }, { status: 400 });
   }
   try {

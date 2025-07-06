@@ -6,14 +6,12 @@ import { basedomain } from "@/database/schema/basedomain";
 import { authOptions } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 
-// GET: Get all domains purchased by the authenticated user
 export async function GET() {
     const session = await getServerSession(authOptions);
     if (!session || !session.user?.id) {
         return NextResponse.json({ error: "unauthorized" }, { status: 401 });
     }
     try {
-        // Join purchase with basedomain to get domain info
         const purchases = await db.select({
             purchaseId: purchase.id,
             status: purchase.status,
@@ -37,7 +35,7 @@ export async function GET() {
     }
 }
 
-// POST: Purchase a domain
+// POST: Purchase a domain baby
 export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
     if (!session || !session.user?.id) {
@@ -49,14 +47,22 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Missing basedomainId" }, { status: 400 });
     }
     try {
-        // Get domain info
+        //Get domain info baby
         const [domain] = await db.select().from(basedomain).where(eq(basedomain.id, basedomainId));
         if (!domain) {
             return NextResponse.json({ error: "Domain not found" }, { status: 404 });
         }
-        // If the domain is free, set price to 0; otherwise, use a random price
+        //user cannot buy own domain baby
+        const [checkdomainowned] = await db.select().from(basedomain).where(eq(basedomain.ownerId , session.user.id))
+         if(checkdomainowned){
+            return NextResponse.json({error: "user cannot buy own domain"}, {status :401})
+         }
+         //////////////////////////////////////////////////////////
+
         const isFree = String(domain.price) === "0";
         const purchasePrice = isFree ? 0 : Math.floor(Math.random() * 100) + 1;
+
+        ///////////////////////////////////////////////////////////
 
         const [newPurchase] = await db.insert(purchase).values({
             buyerID: session.user.id,
@@ -65,10 +71,12 @@ export async function POST(req: Request) {
             status: "paid",
         }).returning();
 
-        // If paid, insert paymentdetail with random data
+        //If paid, insert paymentdetail with random data
+        ///this is dummy data i will add  this data later bro hope you understand code 
+        //if you are reading this then love you bro cry emoji gulabi dil emoji 
         let paymentDetail = null;
         if (!isFree) {
-            // Generate random payment details
+            //Generate random payment details
             const paymentMethods = ["credit_card", "upi", "net_banking", "wallet"];
             const paymentMethod = paymentMethods[Math.floor(Math.random() * paymentMethods.length)];
             const paymentRefId = Math.random().toString(36).substring(2, 12);
