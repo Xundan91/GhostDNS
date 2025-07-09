@@ -1,5 +1,5 @@
 {
-  "id": "fad6c6a7-6c6b-4fb7-afa5-7ba1241b608e",
+  "id": "cc9d5c07-7f6d-40ae-a654-6ca7131fd232",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -14,6 +14,12 @@
           "primaryKey": true,
           "notNull": true,
           "default": "gen_random_uuid()"
+        },
+        "owner_id": {
+          "name": "owner_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
         },
         "domain_name": {
           "name": "domain_name",
@@ -39,12 +45,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
-        },
-        "owner_id": {
-          "name": "owner_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -87,6 +87,392 @@
           ]
         }
       },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.cnameupdate": {
+      "name": "cnameupdate",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "connectedproject": {
+          "name": "connectedproject",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "userid": {
+          "name": "userid",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "basedomain": {
+          "name": "basedomain",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "purchasedomain": {
+          "name": "purchasedomain",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cname": {
+          "name": "cname",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "deployedurl": {
+          "name": "deployedurl",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "UpdatedAt": {
+          "name": "UpdatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "cnameupdate_connectedproject_connectproject_id_fk": {
+          "name": "cnameupdate_connectedproject_connectproject_id_fk",
+          "tableFrom": "cnameupdate",
+          "tableTo": "connectproject",
+          "columnsFrom": [
+            "connectedproject"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "cnameupdate_userid_users_id_fk": {
+          "name": "cnameupdate_userid_users_id_fk",
+          "tableFrom": "cnameupdate",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userid"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "cnameupdate_basedomain_basedomain_id_fk": {
+          "name": "cnameupdate_basedomain_basedomain_id_fk",
+          "tableFrom": "cnameupdate",
+          "tableTo": "basedomain",
+          "columnsFrom": [
+            "basedomain"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "cnameupdate_purchasedomain_purchase_id_fk": {
+          "name": "cnameupdate_purchasedomain_purchase_id_fk",
+          "tableFrom": "cnameupdate",
+          "tableTo": "purchase",
+          "columnsFrom": [
+            "purchasedomain"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.configuredomain": {
+      "name": "configuredomain",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "userID_config": {
+          "name": "userID_config",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "base_domain_id": {
+          "name": "base_domain_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "purchase_domain": {
+          "name": "purchase_domain",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "isconfigured": {
+          "name": "isconfigured",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "domain_id": {
+          "name": "domain_id",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "platform": {
+          "name": "platform",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "api_key": {
+          "name": "api_key",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "project_id": {
+          "name": "project_id",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "project_name": {
+          "name": "project_name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "deployed_url": {
+          "name": "deployed_url",
+          "type": "varchar(512)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cname": {
+          "name": "cname",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "configuredomain_userID_config_users_id_fk": {
+          "name": "configuredomain_userID_config_users_id_fk",
+          "tableFrom": "configuredomain",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userID_config"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "configuredomain_base_domain_id_basedomain_id_fk": {
+          "name": "configuredomain_base_domain_id_basedomain_id_fk",
+          "tableFrom": "configuredomain",
+          "tableTo": "basedomain",
+          "columnsFrom": [
+            "base_domain_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "configuredomain_purchase_domain_purchase_id_fk": {
+          "name": "configuredomain_purchase_domain_purchase_id_fk",
+          "tableFrom": "configuredomain",
+          "tableTo": "purchase",
+          "columnsFrom": [
+            "purchase_domain"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.connectproject": {
+      "name": "connectproject",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "isconnected": {
+          "name": "isconnected",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "basedomain": {
+          "name": "basedomain",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "purchasedomain": {
+          "name": "purchasedomain",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "platform": {
+          "name": "platform",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "connectApiKey": {
+          "name": "connectApiKey",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "project_id": {
+          "name": "project_id",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "project_name": {
+          "name": "project_name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "deployed_url": {
+          "name": "deployed_url",
+          "type": "varchar(512)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "connectproject_userId_users_id_fk": {
+          "name": "connectproject_userId_users_id_fk",
+          "tableFrom": "connectproject",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "connectproject_basedomain_basedomain_id_fk": {
+          "name": "connectproject_basedomain_basedomain_id_fk",
+          "tableFrom": "connectproject",
+          "tableTo": "basedomain",
+          "columnsFrom": [
+            "basedomain"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "connectproject_purchasedomain_purchase_id_fk": {
+          "name": "connectproject_purchasedomain_purchase_id_fk",
+          "tableFrom": "connectproject",
+          "tableTo": "purchase",
+          "columnsFrom": [
+            "purchasedomain"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

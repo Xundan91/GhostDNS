@@ -5,14 +5,10 @@ import { users } from "./users"
 
 export const subdomainclaim = pgTable("subdomain_claims",{
     id: text("id").primaryKey().default(sql`gen_random_uuid()`),
-
     subdomain : text("subdomain").notNull(),
     fulldomain : text("fulldomain").notNull().unique(),
-
-    
     userId : text("user_id").notNull().references(()=>(users.id)),
     basedomainId : text("base_domain_id").notNull().references(()=>(basedomain.id)),
-
     vercelProjectId : text("vercel_project_id"),
     vercelProjectUrl : text("vercel_project_url"),
     secretId : text("secret_id").notNull(),

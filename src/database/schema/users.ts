@@ -1,5 +1,5 @@
 import { pgTable ,serial , text , timestamp } from "drizzle-orm/pg-core";
-import {relations, sql} from "drizzle-orm"
+import { sql} from "drizzle-orm"
 
 export const users = pgTable("users",{
     id : text("id").primaryKey().default(sql `gen_random_uuid()`),

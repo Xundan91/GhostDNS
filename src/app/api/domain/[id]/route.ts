@@ -19,6 +19,7 @@ export async function GET(
     .from(basedomain)
     .where(eq(basedomain.id, params.id))
     .then((res) => res[0]); 
+    
     ///because i want the one data from the existing table so i have to take first index so res[0]
 
     if (!domain) {

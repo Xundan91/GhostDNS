@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1750666512210,
-      "tag": "0000_square_blizzard",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1750705582703,
-      "tag": "0001_ambitious_the_leader",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1750741513519,
-      "tag": "0002_handy_ultimo",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1750754268824,
-      "tag": "0003_low_loners",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1751605003198,
-      "tag": "0004_gigantic_purple_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1751786068767,
-      "tag": "0005_brief_mentallo",
+      "when": 1752042419830,
+      "tag": "0000_milky_bedlam",
       "breakpoints": true
     }
   ]

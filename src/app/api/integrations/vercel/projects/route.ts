@@ -46,8 +46,7 @@ export async function POST(request: NextRequest) {
       }
 
       const data = await response.json();
-      // Transform Netlify sites to our format
-      const projects = data.map((site: any) => ({
+       const projects = data.map((site: any) => ({
         id: site.id,
         name: site.name,
         url: site.url,

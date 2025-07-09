@@ -1,1 +1,0 @@
-ALTER TABLE "configuredomain" ADD COLUMN "isconfigured" boolean DEFAULT false;

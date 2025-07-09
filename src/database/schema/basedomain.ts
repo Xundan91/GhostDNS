@@ -1,6 +1,7 @@
 import {pgTable, text, boolean , timestamp} from "drizzle-orm/pg-core";
 import {sql} from "drizzle-orm"
 import {users} from "./users"
+
 export const basedomain = pgTable("basedomain",{
     id: text("id").primaryKey().default(sql`gen_random_uuid()`),
     ownerId : text("owner_id").notNull().references(()=>users.id,{
@@ -15,3 +16,6 @@ export const basedomain = pgTable("basedomain",{
     updatedAt : timestamp("updated_At", {withTimezone:true}).defaultNow()
     
 })
+
+
+

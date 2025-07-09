@@ -53,10 +53,10 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Domain not found" }, { status: 404 });
         }
         //user cannot buy own domain baby
-        const [checkdomainowned] = await db.select().from(basedomain).where(eq(basedomain.ownerId , session.user.id))
-         if(checkdomainowned){
-            return NextResponse.json({error: "user cannot buy own domain"}, {status :401})
-         }
+        // const [checkdomainowned] = await db.select().from(basedomain).where(eq(basedomain.ownerId , session.user.id))
+        //  if(checkdomainowned){
+        //     return NextResponse.json({error: "user cannot buy own domain"}, {status :401})
+        //  }
          //////////////////////////////////////////////////////////
 
         const isFree = String(domain.price) === "0";
