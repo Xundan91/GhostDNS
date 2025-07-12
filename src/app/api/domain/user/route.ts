@@ -40,7 +40,6 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    // Use 'platform' instead of 'provider' for consistency with schema
     const { domainName, platform, pricingType, price, apiKey } = body;
 
     // Validate required fields
@@ -56,7 +55,7 @@ export async function POST(req: Request) {
             domainName,
             platform,
             price: priceStr,
-            ownerId: session.user.id,
+            ownerId: session.user?.id,
             apiKey,
         }).returning();
 

@@ -14,7 +14,7 @@ export async function GET() {
   const user = await db.query.users.findFirst({
     where: eq(users.id, session.user.id),
     columns: { id: true, name: true, email: true, role: true, createdAt: true, updatedAt: true },
-  });
+  });  
   if (!user) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }

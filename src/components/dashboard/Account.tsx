@@ -40,7 +40,6 @@ const Account: React.FC = () => {
   // Stats
   const [owned, setOwned] = useState<Domain[]>([]);
   const [purchased, setPurchased] = useState<number>(0);
-  const [configured, setConfigured] = useState<number>(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -49,15 +48,13 @@ const Account: React.FC = () => {
       fetch('/api/user').then(res => res.json()),
       fetch('/api/domain/user').then(res => res.json()),
       fetch('/api/purchase').then(res => res.json()),
-      fetch('/api/configuredomain').then(res => res.json()),
-    ]).then(([userRes, ownedRes, purchasedRes, configuredRes]) => {
+    ]).then(([userRes, ownedRes, purchasedRes]) => {
       if (userRes.user) {
         setUser(userRes.user);
         setForm(f => ({ ...f, name: userRes.user.name, email: userRes.user.email }));
       }
       setOwned(ownedRes.domains || []);
       setPurchased((purchasedRes.purchases || []).length);
-      setConfigured((configuredRes.domains || []).length);
       setLoading(false);
     }).catch(() => {
       setError('Failed to load account details');
@@ -129,12 +126,7 @@ const Account: React.FC = () => {
       onClick: () => router.push('/dashboard/purchased-domains'),
       showPreview: false,
     },
-    {
-      label: 'Domains Configured',
-      value: configured,
-      onClick: () => router.push('/dashboard/all-configured-domains'),
-      showPreview: false,
-    },
+
   ];
 
   return (
