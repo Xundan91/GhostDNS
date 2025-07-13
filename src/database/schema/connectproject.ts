@@ -5,7 +5,7 @@ import { basedomain } from "./basedomain";
 import { purchase } from "./purchase";
 export const connectproject = pgTable("connectproject", {
     id : uuid("id").primaryKey().defaultRandom(),
-    isconnected : boolean("isconnected").default(true),
+    isconnected : boolean("isconnected").default(false),
     userId : text("userId").references(()=>users.id),
     basedomain : text("basedomain").notNull().references(()=>basedomain.id),
     purchasedomain : text("purchasedomain").notNull().references(()=>purchase.id),
