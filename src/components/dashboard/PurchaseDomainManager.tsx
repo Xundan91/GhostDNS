@@ -472,7 +472,7 @@ const PurchaseDomainManager: React.FC<PurchaseDomainManagerProps> = ({ purchaseI
                   >
                     {connectingProject ? (
                       <>
-                        <Loader2 className="w-4 h-0 animate-spin" />
+                        <Loader2 className="w-4 h-4 animate-spin" />
                         <span>{existingProject ? 'Updating...' : 'Connecting...'}</span>
                       </>
                     ) : (
