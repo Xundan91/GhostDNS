@@ -3,8 +3,10 @@
 import React from 'react';
 import Button from './Button';
 import DomainCard from './DomainCard';
+import { useRouter } from 'next/navigation';
 
 const HeroSection: React.FC = () => {
+  const router = useRouter();
   return (
     <section className="py-12 md:py-20 px-4">
       <div className="container mx-auto max-w-7xl">
@@ -31,8 +33,8 @@ const HeroSection: React.FC = () => {
               Launch your next project with a premium subdomain. Instant setup, zero configuration.
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-              <Button primary>Browse Domains</Button>
-              <Button primary={false}>Connect Project</Button>
+              <Button primary onClick={() => router.push('/dashboard')}>Browse Domains</Button>
+              <Button primary={false} onClick={() => router.push('/dashboard')}>Connect Project</Button>
             </div>
           </div>
           
