@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
             <h4 className="font-semibold mb-4 text-accent-light dark:text-accent-dark">Legal</h4>
             <ul className="space-y-2">
               <li><a href="#" className="opacity-70 hover:opacity-100 transition-opacity text-accent-light dark:text-accent-dark">Terms</a></li>
-              <li><a href="#" className="opacity-70 hover:opacity-100 transition-opacity text-accent-light dark:text-accent-dark">Privacy</a></li>
+              <li><a href="/privacy" className="opacity-70 hover:opacity-100 transition-opacity text-accent-light dark:text-accent-dark">Privacy</a></li>
               <li><a href="#" className="opacity-70 hover:opacity-100 transition-opacity text-accent-light dark:text-accent-dark">Cookies</a></li>
               <li><a href="#" className="opacity-70 hover:opacity-100 transition-opacity text-accent-light dark:text-accent-dark">Licenses</a></li>
             </ul>
