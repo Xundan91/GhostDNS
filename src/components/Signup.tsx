@@ -82,7 +82,7 @@ const Signup: React.FC = () => {
               value={form.firstName}
               onChange={handleChange}
               type="text"
-              placeholder="John"
+              placeholder="name"
               className="w-full bg-black/10 dark:bg-white/5 rounded-lg px-4 py-3 text-sm text-black dark:text-white border border-white/5 focus:outline-none focus:ring-1 focus:ring-accent-light/20 dark:focus:ring-accent-dark/20 placeholder-black/20 dark:placeholder-white/20"
               required
             />
@@ -96,7 +96,7 @@ const Signup: React.FC = () => {
               value={form.lastName}
               onChange={handleChange}
               type="text"
-              placeholder="Doe"
+              placeholder="last"
               className="w-full bg-black/10 dark:bg-white/5 rounded-lg px-4 py-3 text-sm text-black dark:text-white border border-white/5 focus:outline-none focus:ring-1 focus:ring-accent-light/20 dark:focus:ring-accent-dark/20 placeholder-black/20 dark:placeholder-white/20"
               required
             />
@@ -112,7 +112,7 @@ const Signup: React.FC = () => {
             value={form.email}
             onChange={handleChange}
             type="email"
-            placeholder="you@example.com"
+            placeholder="mail@gmail.com"
             className="w-full bg-black/10 dark:bg-white/5 rounded-lg px-4 py-3 text-sm text-black dark:text-white border border-white/5 focus:outline-none focus:ring-1 focus:ring-accent-light/20 dark:focus:ring-accent-dark/20 placeholder-black/20 dark:placeholder-white/20"
             required
           />
