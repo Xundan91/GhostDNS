@@ -66,3 +66,18 @@ export async function POST(request: NextRequest) {
     );
   }
 } 
+export async function DELETE(request: NextRequest){
+  try {
+    const {apikey , services} = await request.json();
+    if(!apikey || services){
+      NextResponse.json({"error": "please enter the valid api key  or services"}, {status:500})
+    }
+    if(services==="vercel"){
+
+    }
+    
+  } catch (error) {
+    
+  }
+
+}
