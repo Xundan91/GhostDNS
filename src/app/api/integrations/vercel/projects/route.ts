@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { json } from 'stream/consumers';
 
 export async function POST(request: NextRequest) {
   try {
@@ -73,8 +74,21 @@ export async function DELETE(request: NextRequest){
       NextResponse.json({"error": "please enter the valid api key  or services"}, {status:500})
     }
     if(services==="vercel"){
+      const response = await fetch("https://api.vercel.com/v9/projects",{
+        headers :{
+          'Authorization': `Bearer ${apikey}`,
+          'content-Type' : 'Application/json',
+        }
+
+      });
+      if(!response.ok){
+        const errorText = await response.text();
+        console.error('Vercel API error:', errorText);
+        throw new Error('Failed to fetch projects from Vercel');
+      }
 
     }
+
     
   } catch (error) {
     
