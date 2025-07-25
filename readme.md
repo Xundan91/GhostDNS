@@ -11,11 +11,6 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.5.3-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.4.1-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 
-[![GitHub Stars](https://img.shields.io/github/stars/yourusername/domain-hub?style=social)](https://github.com/yourusername/domain-hub/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/yourusername/domain-hub?style=social)](https://github.com/yourusername/domain-hub/network/members)
-[![GitHub Issues](https://img.shields.io/github/issues/yourusername/domain-hub?style=flat-square)](https://github.com/yourusername/domain-hub/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/yourusername/domain-hub?style=flat-square)](https://github.com/yourusername/domain-hub/pulls)
-
 ![Visitors](https://visitor-badge.laobi.icu/badge?page_id=yourusername.domain-hub)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
@@ -332,14 +327,6 @@ SOFTWARE.
 
 </div>
 
-### 🏆 Top Contributors
-
-- **[@yourusername](https://github.com/yourusername)** - Project Creator & Maintainer
-- **[@contributor1](https://github.com/contributor1)** - Frontend Development
-- **[@contributor2](https://github.com/contributor2)** - Backend Development
-
-Want to contribute? Check out our [Contributing Guidelines](#-contributing)!
-
 ## 🙏 Acknowledgments
 
 - **[Next.js Team](https://nextjs.org/)** - For the amazing React framework
@@ -348,16 +335,6 @@ Want to contribute? Check out our [Contributing Guidelines](#-contributing)!
 - **[Lucide](https://lucide.dev/)** - For the beautiful icons
 - **[Framer Motion](https://www.framer.com/motion/)** - For smooth animations
 
-## 📞 Support
-
-- 📧 **Email**: support@domain-hub.build.dev
-- 💬 **Discord**: [Join our community](https://discord.gg/domain-hub)
-- 🐦 **Twitter**: [@domain_hub](https://twitter.com/domain_hub)
-- 📚 **Documentation**: [docs.domain-hub.build.dev](https://docs.domain-hub.build.dev)
-
----
-
-<div align="center">
 
 **[⬆ Back to Top](#-domain-hub)**
 
