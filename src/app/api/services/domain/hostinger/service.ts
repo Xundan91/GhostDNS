@@ -9,7 +9,6 @@ export async function updateHostingerDNS(purchaseId: string) {
   try {
     console.log("Hostinger service: Fetching configuration for purchaseId:", purchaseId);
     
-    // Fetch CNAME and project configuration
     const [configData] = await db
       .select({
         subdomain: cnameupdate.cname,
@@ -25,7 +24,6 @@ export async function updateHostingerDNS(purchaseId: string) {
       throw new Error("Configuration not found");
     }
 
-    // Fetch base domain
     const [domainData] = await db
       .select({
         apikey: basedomain.apiKey,
@@ -41,7 +39,6 @@ export async function updateHostingerDNS(purchaseId: string) {
 
     const { subdomain, deployed_url: rawTarget } = configData;
 
-    // Clean target (remove protocol and trailing slash, add trailing dot)
     let target = (rawTarget ?? "")
       .trim()
       .replace(/^https?:\/\//, "") // remove http/https
